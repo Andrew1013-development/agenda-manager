@@ -11,14 +11,14 @@ using System.Runtime.InteropServices;
 // components.  If you need to access a type in this assembly from COM, set the ComVisible
 // attribute to true on that type.
 
-[assembly: ComVisible(true)]
-[assembly: AssemblyVersion("0.1.2.1")]
-[assembly: AssemblyFileVersion("0.1.2.1")]
-[assembly: AssemblyInformationalVersion("0.1.2.1")]
-[assembly: AssemblyProduct("agenda-manager")]
+[assembly: ComVisible(false)]
+[assembly: AssemblyVersion("0.1.2.2")]
+[assembly: AssemblyFileVersion("0.1.2.2")]
+[assembly: AssemblyInformationalVersion("0.1.2.2-CONFIDENTIAL")]
 [assembly: AssemblyTitle("Agenda Manager")]
 [assembly: AssemblyCompany("Andrew1013-development")]
+[assembly: AssemblyCopyright("Copyright 2023 - 2023 Andrew1013-development")]
+[assembly: AssemblyDescription("Agenda Manager")]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM.
-
-[assembly: Guid("e92ab994-01f6-4fbe-88c3-b1e96271f130")]
+[assembly: Guid("4f85a259-1ded-456a-9010-ff87e38a2cc3")]

@@ -6,14 +6,14 @@
     <RootNamespace>agenda-manager</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <ApplicationIcon>icon.ico</ApplicationIcon>
 	<EnableWindowsTargeting>true</EnableWindowsTargeting>
 	<SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
 	<PackageLicenseFile>license.txt</PackageLicenseFile>
 	<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 	<NeutralLanguage>en-US</NeutralLanguage>
-	<Title>Agenda Manager</Title>
 	<Version></Version>
+	<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+	<SignAssembly>False</SignAssembly>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -33,10 +33,15 @@
 
   <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="2.20.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="Z:\agenda-manager\AgendaLibrary\AgendaLibrary.csproj" />
   </ItemGroup>
+
+  <PropertyGroup>
+	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
 
 </Project>

@@ -1,9 +1,11 @@
 ﻿using MongoDB.Driver;
 using MongoDB.Bson;
 using MongoDB.Bson.IO;
-using csharp_mongodb_quickstart;
 using System.Reflection;
 using System.Diagnostics;
+using System.Configuration;
+using csharp_mongodb_quickstart;
+using AgendaLibrary;
 
 /* exit code
 * 0 = normal exit
@@ -16,10 +18,12 @@ using System.Diagnostics;
 
 // global variables to use
 // versioning
-string? version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+string? version = Assembly.GetExecutingAssembly()?.GetName().Version?.ToString();
+string? file_version = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion?.ToString();
 bool confidential = true;
 // mongodb credentials
-string connectionString = "mongodb+srv://homework-database:homework123@cluster0.ygoqv7l.mongodb.net/";
+string? connectionString = ConfigurationManager.AppSettings.Get("MONGODB_URI");
+string? language = ConfigurationManager.AppSettings.Get("LANG");
 string uploader_password = DateTime.Now.ToShortDateString().Replace("/","");
 var stopwatch = new Stopwatch();
 
@@ -62,7 +66,7 @@ if (confidential) {
     Console.WriteLine("***THIS IS A CONFIDENTIAL BUILD, ANY ACTION OF BEING SUS WILL BE PUNISHED***");
 }
 Console.WriteLine();
-Console.WriteLine($"Welcome to Agenda Manager v{version}! (started up in {stopwatch.ElapsedMilliseconds} ms)");
+Console.WriteLine($"Welcome to Agenda Manager v{version} - build {file_version}! (started up in {stopwatch.ElapsedMilliseconds} ms)");
 Console.WriteLine($"Current date and time: {DateTime.Now}");
 Console.WriteLine($"Agendas on database: {agenda_collection.Find(empty_filter).CountDocuments()} agendas");
 Console.WriteLine();
@@ -72,22 +76,30 @@ string? role = "";
 Console.WriteLine("Role selection:");
 Console.WriteLine("\t1: Uploader (uploading agendas to database)\n" +
     "\t2: Receiver (receiving upcoming agendas from database)\n" +
-    "\t3: Pruner (pruning old out-of-date agendas from database)\n" + 
-    "\t4: Exiting (exit the program)\n" +
-    "\t5: View credits\n" +
-    "\t6: Report a bug\n" + 
-    "\t7: Check for updates (not finished yet)");
+    "\t3: Pruner (pruning old out-of-date agendas from database)\n" +
+    "\t4: View credits\n" +
+    "\t5: Report a bug\n" +
+    "\t6: Check for updates (not finished yet)\n" +
+    "\t7: Change settings (not finished yet)\n" + 
+    "\t8: Exiting (exit the program)"
+    );
 while (role == null || role == String.Empty) {
     Console.Write("Specify your role in the designated number above: ");
     role = Console.ReadLine();
     Trace.WriteLine($"{DateTime.Now} - role selected : {role}");
-    if (role == "1" || role == "2" || role == "3" || role == "4" || role == "5" || role == "6" || role == "0") {
-        break;
+    if (role?.Length == 1) {
+        if (role.ToCharArray()[0] >= 0 && role.ToCharArray()[0] <= 9)
+        {
+            break;
+        }
+        else {
+            Console.WriteLine("Invalid role specified.");
+            Trace.WriteLine($"{DateTime.Now} - invalid input specified");
+        } 
     }
     else {
-        Console.WriteLine($"{DateTime.Now} - Invalid input specified.");
-        Trace.WriteLine("invalid role specified");
-        Environment.Exit(2);
+        Console.WriteLine("Role input cannot be longer than 2");
+        Trace.WriteLine($"{DateTime.Now} - role input length is invalid");
     }
 }
 
@@ -99,10 +111,9 @@ if (role == "1")
     if (output == uploader_password)
     {
         upload_agenda_function();
-        
         upload_telemetry_function();
-        AgendaLibrary.UploadLibrary.UploadAgenda();
-        AgendaLibrary.UploadLibrary.UploadTelemetry();
+        //UploadLibrary.UploadAgenda();
+        //UploadLibrary.UploadTelemetry();
     }
     else
     {
@@ -135,18 +146,35 @@ else if (role == "3")
     agenda_collection.DeleteMany(agenda_filter);
     Console.WriteLine($"Pruned {agenda_search.Count} old agendas");
 }
-else if (role == "5")
+else if (role == "4")
 {
     Console.WriteLine($"----------CREDITS----------");
     Console.WriteLine("Main developer: Andrew1013-development");
     Console.WriteLine("Testers: \n" +
-        "\tHamyly (0.1.0 -> 0.1.2)\n" +
-        "\tMonarch (0.1.0 -> 0.1.2)\n");
+        "\tHamyly\n" +
+        "\tEviel\n" + 
+        "\tMonarch\n");
 }
-else if (role == "6") 
+else if (role == "5")
 {
     upload_bug_function();
-    AgendaLibrary.UploadLibrary.UploadBug();
+    //UploadLibrary.UploadBug();
+}
+else if (role == "6")
+{
+    /*
+    //bool update_needed = await UpdateLibrary.CheckForUpdate(version);
+    bool update_needed = true;
+    if (update_needed) 
+    {
+        UpdateLibrary.InstallUpdate();
+    }
+    */
+    Console.WriteLine("This function is still work-in-progress.");
+}
+else if (role == "7") 
+{
+    Console.WriteLine("This function is still work-in-progress.");
 }
 else if (role == "0")
 {
