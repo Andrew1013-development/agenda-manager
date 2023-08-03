@@ -1,16 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
-using System.Net.Http;
+using System.Net;
+using System.IO;
 using Octokit;
+using System.Text;
 
 namespace AgendaLibrary
-{    
+{
     public class UpdateLibrary
-    {   
-        public static async Task<Tuple<bool,string,AgendaLibrary.exitCode>> CheckForUpdate(string current_version)
+    {
+        public static async Task<Tuple<bool,Uri,AgendaLibrary.exitCode>> CheckForUpdate(string current_version)
         {
             var client = new GitHubClient(new ProductHeaderValue("subscribe-to-hamyly"));
             try 
@@ -19,38 +19,40 @@ namespace AgendaLibrary
                 Console.WriteLine($"The latest release version name is: {latest.TagName}");
                 Console.WriteLine($"Description of release: {latest.Body}");
                 Console.WriteLine($"URL of release: {latest.Url}");
+                Console.WriteLine($"Release assets' URL: {latest.AssetsUrl}");
                 if (compare_versions(current_version, latest.TagName))
                 {
-                    Console.WriteLine("Update detected.");
-                    return Tuple.Create(true,latest.Url, exitCode.SuccessfulExecution);
+                    Console.WriteLine("Update detected, ready to install and update");
+                    return Tuple.Create(true, new Uri(latest.Assets.ElementAt(0).BrowserDownloadUrl), exitCode.SuccessfulExecution);
                 } else
                 {
-                    return Tuple.Create(false,"",exitCode.FetchUpdateFailure);
+                    return Tuple.Create(false,new Uri(""),exitCode.FetchUpdateFailure);
                 }
             } 
             catch (ApiException ae)
             {
                 Console.WriteLine("Cannot check for updates.");
-                return Tuple.Create(false,"",exitCode.FetchUpdateFailure);
+                return Tuple.Create(false,new Uri(""), exitCode.FetchUpdateFailure);
             }
         }
-        public static async void InstallUpdate(string update_url) 
+        public static exitCode DownloadUpdate(Uri download_uri)
         {
-            var client = new HttpClient();
-            client.DefaultRequestHeaders.Add("User-Agent", "subscribe-to-hamyly");
-            client.DefaultRequestHeaders.Add("Accept", "application/vnd.github+json");
-            
-            try
+            Console.WriteLine($"Downloading update from {download_uri} to {Directory.GetCurrentDirectory()}.....");
+            WebClient client = new WebClient();
+            client.Headers.Add(HttpRequestHeader.UserAgent, "subscribe-to-eviel");
+            if (File.Exists(@"AgendaManager_update.zip"))
             {
-                HttpResponseMessage response = await client.GetAsync(update_url);
-                Console.WriteLine(response.StatusCode);
-                response.EnsureSuccessStatusCode();
-            } catch (HttpRequestException hqe)
-            {
-                Console.WriteLine("Cannot download update, request failed.");
-                Console.WriteLine($"Status code: {hqe.StatusCode}");
-            } 
-            
+                File.Delete(@"AgendaManager_update.zip");
+            }
+            client.DownloadFile(download_uri, @"AgendaManager_update.exe");
+            Console.WriteLine("Update downloaded.");
+            return exitCode.SuccessfulExecution;
+        }
+        public static exitCode InstallUpdate(Uri download_uri) 
+        {
+            Console.WriteLine("Installing update.....");
+            Console.WriteLine("Update installed.");
+            return exitCode.SuccessfulExecution;
         }
 
         // helper functions

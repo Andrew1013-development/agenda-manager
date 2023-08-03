@@ -18,10 +18,10 @@ namespace AgendaLibrary
                 Console.WriteLine($"Error: {exit}");
             } else
             {
-                Console.WriteLine("Press Enter to Exit.");
-                Console.ReadKey();
+                Console.WriteLine("Waiting 5 seconds to exit.....");
+                Thread.Sleep(5000);
             }
-            Environment.Exit(actual_exit);
+            //Environment.Exit(actual_exit);
         }
     }
 }

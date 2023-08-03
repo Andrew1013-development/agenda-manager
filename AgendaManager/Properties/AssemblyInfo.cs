@@ -11,10 +11,10 @@ using System.Runtime.InteropServices;
 // components.  If you need to access a type in this assembly from COM, set the ComVisible
 // attribute to true on that type.
 
-[assembly: ComVisible(false)]
-[assembly: AssemblyVersion("0.1.2.3")]
-[assembly: AssemblyFileVersion("0.1.2.3")]
-[assembly: AssemblyInformationalVersion("0.1.2.3-DEBUG")]
+[assembly: ComVisible(true)]
+[assembly: AssemblyVersion("0.1.2.1")]
+[assembly: AssemblyFileVersion("0.1.2.4")]
+[assembly: AssemblyInformationalVersion("0.1.2.4-DEBUG")]
 [assembly: AssemblyTitle("Agenda Manager")]
 [assembly: AssemblyCompany("Andrew1013-development")]
 [assembly: AssemblyCopyright("Copyright 2023 - 2023 Andrew1013-development")]
