@@ -12,13 +12,7 @@ using System.Runtime.InteropServices;
 // attribute to true on that type.
 
 [assembly: ComVisible(false)]
-[assembly: AssemblyVersion("0.1.2.2")]
-[assembly: AssemblyFileVersion("0.1.2.2")]
-[assembly: AssemblyInformationalVersion("0.1.2.2-CONFIDENTIAL")]
-[assembly: AssemblyTitle("Agenda Manager")]
-[assembly: AssemblyCompany("Andrew1013-development")]
-[assembly: AssemblyCopyright("Copyright 2023 - 2023 Andrew1013-development")]
-[assembly: AssemblyDescription("Agenda Manager")]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM.
-[assembly: Guid("4f85a259-1ded-456a-9010-ff87e38a2cc3")]
+
+[assembly: Guid("5c6ec251-6564-4087-b11a-7d3beed5fad8")]

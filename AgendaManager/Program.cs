@@ -7,29 +7,19 @@ using System.Configuration;
 using csharp_mongodb_quickstart;
 using AgendaLibrary;
 
-/* exit code
-* 0 = normal exit
-* 1 = database connection cannot be established
-* 2 = invalid role specified
-* 3 = invalid input (empty field or invalid string to parse)
-* 4 = wrong password
-* 5 = secret menu accessed
-*/
-
 // global variables to use
 // versioning
 string? version = Assembly.GetExecutingAssembly()?.GetName().Version?.ToString();
-string? file_version = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion?.ToString();
-bool confidential = true;
 // mongodb credentials
 string? connectionString = ConfigurationManager.AppSettings.Get("MONGODB_URI");
 string? language = ConfigurationManager.AppSettings.Get("LANG");
 string uploader_password = DateTime.Now.ToShortDateString().Replace("/","");
 var stopwatch = new Stopwatch();
 
+#region startup code
 // setting up
-// logging
 stopwatch.Start();
+// logging
 Console.WriteLine("Creating log file.....");
 StreamWriter logFile = File.CreateText("manager.log");
 Trace.Listeners.Add(new TextWriterTraceListener(logFile));
@@ -60,13 +50,16 @@ stopwatch.Stop();
 Trace.WriteLine($"{DateTime.Now} - all parts started up in {stopwatch.ElapsedMilliseconds} ms");
 Console.WriteLine("Waiting 1 seconds until starting up.....");
 Thread.Sleep(1000);
+#endregion
 
 Console.Clear();
-if (confidential) {
-    Console.WriteLine("***THIS IS A CONFIDENTIAL BUILD, ANY ACTION OF BEING SUS WILL BE PUNISHED***");
-}
+#region debug code only
+#if DEBUG
+Console.WriteLine("***THIS IS A DEBUG BUILD, PERFORMANCE WILL BE REDUCED, USE WITH CAUTION.***");
+#endif
+#endregion
 Console.WriteLine();
-Console.WriteLine($"Welcome to Agenda Manager v{version} - build {file_version}! (started up in {stopwatch.ElapsedMilliseconds} ms)");
+Console.WriteLine($"Welcome to Agenda Manager v{version} (started up in {stopwatch.ElapsedMilliseconds} ms)");
 Console.WriteLine($"Current date and time: {DateTime.Now}");
 Console.WriteLine($"Agendas on database: {agenda_collection.Find(empty_filter).CountDocuments()} agendas");
 Console.WriteLine();
@@ -81,7 +74,8 @@ Console.WriteLine("\t1: Uploader (uploading agendas to database)\n" +
     "\t5: Report a bug\n" +
     "\t6: Check for updates (not finished yet)\n" +
     "\t7: Change settings (not finished yet)\n" + 
-    "\t8: Exiting (exit the program)"
+    "\t8: Summon Help\n" + 
+    "\t9: Exiting (exit the program)"
     );
 while (role == null || role == String.Empty) {
     Console.Write("Specify your role in the designated number above: ");
@@ -94,6 +88,7 @@ while (role == null || role == String.Empty) {
         }
         else {
             Console.WriteLine("Invalid role specified.");
+            
             Trace.WriteLine($"{DateTime.Now} - invalid input specified");
         } 
     }
@@ -152,7 +147,7 @@ else if (role == "4")
     Console.WriteLine("Main developer: Andrew1013-development");
     Console.WriteLine("Testers: \n" +
         "\tHamyly\n" +
-        "\tEviel\n" + 
+        "\tEviel\n" +
         "\tMonarch\n");
 }
 else if (role == "5")
@@ -162,17 +157,16 @@ else if (role == "5")
 }
 else if (role == "6")
 {
-    /*
-    //bool update_needed = await UpdateLibrary.CheckForUpdate(version);
-    bool update_needed = true;
-    if (update_needed) 
+    Tuple<bool, string, exitCode> update_packet = await UpdateLibrary.CheckForUpdate(version);
+    if (update_packet.Item1)
     {
-        UpdateLibrary.InstallUpdate();
+        UpdateLibrary.InstallUpdate(update_packet.Item2);
+    } else
+    {
+        //ProperExit(update_packet.Item3);
     }
-    */
-    Console.WriteLine("This function is still work-in-progress.");
 }
-else if (role == "7") 
+else if (role == "7")
 {
     Console.WriteLine("This function is still work-in-progress.");
 }
@@ -191,7 +185,7 @@ else
 
 Console.WriteLine("\nPress Enter to exit.");
 Console.ReadKey();
-Environment.Exit(0);
+ExitLibrary.ProperExit(exitCode.SuccessfulExecution);
 
 void upload_agenda_function() {
     // user input + user error handling
@@ -200,7 +194,7 @@ void upload_agenda_function() {
     {
         Console.Write("Subject: ");
         subject_input = Console.ReadLine();
-        if (subject_input == null) {
+        if (String.IsNullOrEmpty(subject_input)) {
             Console.WriteLine("Subject cannot be empty");
         }
     }
@@ -212,10 +206,19 @@ void upload_agenda_function() {
         if (DateTime.TryParse(deadline_input, out DateTime dt))
         {
             deadline_input = dt.ToShortDateString();
+            break;
         }
         else
         {
-            Console.WriteLine("Input does not translate to a valid day.");
+            if (String.IsNullOrEmpty(deadline_input)) 
+            {
+                Console.WriteLine("Date cannot be empty.");
+            } 
+            else
+            {
+                Console.WriteLine("Date enter does not translate to a valid day.");
+            }
+            
         }
     }
     
@@ -223,7 +226,7 @@ void upload_agenda_function() {
     while (content_input == String.Empty) {
         Console.Write("Content: ");
         content_input = Console.ReadLine();
-        if (content_input == null)
+        if (String.IsNullOrEmpty(content_input))
         {
             Console.WriteLine("Content cannot be empty");
         }
@@ -234,14 +237,7 @@ void upload_agenda_function() {
 
     // turn into "data packet"
     Console.WriteLine("Uploading agenda to database.....");
-    Agenda newAgenda = new()
-    {
-        subject = subject_input,
-        deadline = deadline_input,
-        content = content_input,
-        notes = notes_input,
-        created = DateTime.Now.ToShortDateString(),
-    };
+    Agenda newAgenda = new Agenda(subject_input, deadline_input, content_input, notes_input);
     Console.WriteLine(newAgenda.ToJson(json_settings));
     // insert data packet into database
     agenda_collection.InsertOne(newAgenda);
@@ -249,19 +245,8 @@ void upload_agenda_function() {
 }
 
 void upload_telemetry_function() {
+    Telemetry newTelemetry = new Telemetry();
     Console.WriteLine("Uploading telemetry data to database.....");
-    Telemetry newTelemetry = new Telemetry()
-    {
-        machine_name = Environment.MachineName,
-        platform = Environment.OSVersion,
-        platform_64bit = Environment.Is64BitOperatingSystem,
-        clr_version = Environment.Version,
-        cpu_count = Environment.ProcessorCount,
-        username = Environment.UserName,
-        system_dir = Environment.SystemDirectory,
-        process_id = Environment.ProcessId,
-        process_path = Environment.ProcessPath,
-    };
     Console.WriteLine(newTelemetry.ToJson(json_settings));
     telemetry_collection.InsertOne(newTelemetry);
     Console.WriteLine("Uploaded telemetry data to database.");
@@ -273,7 +258,7 @@ void upload_bug_function() {
     while (name_input == String.Empty) {
         Console.WriteLine("Give a brief description of the bug");
         name_input = Console.In.ReadToEnd();
-        if (name_input == null)
+        if (String.IsNullOrEmpty(name_input))
         {
             Console.WriteLine("Bug description cannot be empty.");
         }
@@ -283,20 +268,16 @@ void upload_bug_function() {
     while (reproduction_input == String.Empty) {
         Console.WriteLine("Describe how to reproduce the bug");
         reproduction_input = Console.In.ReadToEnd();
-        if (reproduction_input == null)
+        if (String.IsNullOrEmpty(reproduction_input))
         {
             Console.WriteLine("Bug reproduction cannot be empty.");
         }
     }
 
     // turn into data packet
-    Bug newBug = new Bug()
-    {
-        bug_name = name_input,
-        bug_reproduction = reproduction_input,
-    };
+    Bug newBug = new Bug(name_input, reproduction_input);
     // insert data packet into database
     Console.WriteLine(newBug.ToJson(json_settings));
     bug_collection.InsertOne(newBug);
-    Console.WriteLine("Bug reported! Thanks for your feedback");
+    Console.WriteLine("Bug reported! Thanks for your feedback!");
 }
