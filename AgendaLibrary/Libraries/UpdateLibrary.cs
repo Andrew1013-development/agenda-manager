@@ -26,31 +26,80 @@ namespace AgendaLibrary
                     return Tuple.Create(true, new Uri(latest.Assets.ElementAt(0).BrowserDownloadUrl), exitCode.SuccessfulExecution);
                 } else
                 {
-                    return Tuple.Create(false,new Uri(""),exitCode.FetchUpdateFailure);
+                    return Tuple.Create(false,new Uri("https://www.youtube.com/watch?v=EgrhzWzfTb4"),exitCode.FetchUpdateFailure);
                 }
             } 
             catch (ApiException ae)
             {
                 Console.WriteLine("Cannot check for updates.");
-                return Tuple.Create(false,new Uri(""), exitCode.FetchUpdateFailure);
+                return Tuple.Create(false,new Uri("https://www.youtube.com/watch?v=dYWOi1bK48s"), exitCode.FetchUpdateFailure);
             }
         }
+
+        public async static Task<exitCode> DownloadUpdater()
+        {
+            var github_client = new GitHubClient(new ProductHeaderValue("subscribe-to-lege"));
+            var web_client = new WebClient();
+            web_client.Headers.Add(HttpRequestHeader.UserAgent, "subscribe-to-cef");
+            if (File.Exists(@"AgendaManagerUpdater.exe")) {
+                Console.WriteLine("Updater is already installed and found, skipping download");
+                return exitCode.SuccessfulExecution;
+            } 
+            else
+            {
+                try
+                {
+                    var latest = await github_client.Repository.Release.GetLatest("Andrew1013-development", "agenda-manager");
+                    try
+                    {
+                        web_client.DownloadFile(new Uri(latest.Assets.ElementAt(1).BrowserDownloadUrl), @"AgendaManagerUpdater.exe");
+                        return exitCode.SuccessfulExecution;
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Cannot download updater to perform update.");
+                        return exitCode.DownloadUpdateFailure;
+                    }
+                }
+                catch (ApiException ae)
+                {
+                    Console.WriteLine("Cannot download updater to perform update.");
+                    return exitCode.DownloadUpdateFailure;
+                }
+            } 
+        }
+
         public static exitCode DownloadUpdate(Uri download_uri)
         {
             Console.WriteLine($"Downloading update from {download_uri} to {Directory.GetCurrentDirectory()}.....");
             WebClient client = new WebClient();
             client.Headers.Add(HttpRequestHeader.UserAgent, "subscribe-to-eviel");
-            if (File.Exists(@"AgendaManager_update.zip"))
+            if (File.Exists(@"AgendaManager_update.exe"))
             {
-                File.Delete(@"AgendaManager_update.zip");
+                File.Delete(@"AgendaManager_update.exe");
             }
-            client.DownloadFile(download_uri, @"AgendaManager_update.exe");
+            try
+            {
+                client.DownloadFile(download_uri, @"AgendaManager_update.exe");
+            } 
+            catch (Exception e)
+            {
+                Console.WriteLine("Cannot download update file.");
+                return exitCode.DownloadUpdateFailure;
+            }
             Console.WriteLine("Update downloaded.");
             return exitCode.SuccessfulExecution;
         }
-        public static exitCode InstallUpdate(Uri download_uri) 
+
+        public static exitCode InstallUpdate() 
         {
+            Console.WriteLine("Sleeping 30 seconds for Agenda Manager to fully quit exiting (for safety).....");
+            Thread.Sleep(30000);
+            Console.WriteLine("Creating backup of the old version.....");
+            File.Move(@"AgendaManager.exe", @"AgendaManager_old.exe", true);
+            Console.WriteLine("Old backup is created.");
             Console.WriteLine("Installing update.....");
+            File.Move(@"AgendaManager_update.exe", @"AgendaManager.exe", true);
             Console.WriteLine("Update installed.");
             return exitCode.SuccessfulExecution;
         }

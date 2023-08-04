@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Configuration;
 using csharp_mongodb_quickstart;
 using AgendaLibrary;
+using System.Runtime.CompilerServices;
 
 // global variables to use
 // versioning
@@ -13,8 +14,9 @@ string? version = Assembly.GetExecutingAssembly()?.GetName().Version?.ToString()
 bool install_update = false;
 Uri update_uri = new Uri("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
 // mongodb credentials
-string? connectionString = ConfigurationManager.AppSettings.Get("MONGODB_URI");
-string? language = ConfigurationManager.AppSettings.Get("LANG");
+//string? connectionString = ConfigurationManager.AppSettings.Get("MONGODB_URI");
+//string? language = ConfigurationManager.AppSettings.Get("LANG");
+string connectionString = "mongodb+srv://homework-database:homework123@cluster0.ygoqv7l.mongodb.net";
 string uploader_password = DateTime.Now.ToShortDateString().Replace("/","");
 exitCode ec = exitCode.SuccessfulExecution;
 var stopwatch = new Stopwatch();
@@ -166,10 +168,13 @@ else if (role == "6")
         // jump to end of program to assist updating
         install_update = true;
         update_uri = update_packet.Item2;
-    } else
-    {
-        ec = update_packet.Item3;
+        Thread download_thread = new Thread(async () =>
+        {
+            exitCode download_updater = await UpdateLibrary.DownloadUpdater();
+            ec = download_updater;
+        });
     }
+    ec = update_packet.Item3;
 }
 else if (role == "7")
 {
@@ -196,15 +201,12 @@ else
 
 if (install_update)
 {
-    // set up thread to execute update code
-    Thread update_thread = new Thread(() =>
-    {
-        UpdateLibrary.InstallUpdate(update_uri);
-    });
-    Console.WriteLine($"Main thread name: {Thread.CurrentThread.ManagedThreadId}\nUpdate thread name: {update_thread.ManagedThreadId}");
-    update_thread.IsBackground = false;
-    Console.WriteLine("Initialing update process.....");
-    update_thread.Start();
+    // drop version info .txt
+    StreamWriter am_version_writer = new StreamWriter(@"am_version.txt");
+    am_version_writer.WriteLine(version);
+    am_version_writer.Close();
+    // move into updater
+    Process.Start("AgendaManagerUpdater.exe");
 }
 ExitLibrary.ProperExit(ec);
 
