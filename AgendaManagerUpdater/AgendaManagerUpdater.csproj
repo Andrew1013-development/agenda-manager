@@ -5,7 +5,7 @@
     <TargetFramework>net6.0-windows10.0.22000.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <BaseOutputPath>Y:\agenda-manager\bin</BaseOutputPath>
+    <BaseOutputPath>Z:\agenda-manager\bin</BaseOutputPath>
     <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 

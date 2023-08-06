@@ -12,7 +12,27 @@ namespace AgendaLibrary
         {
 
         }
+        public static void HelpReceive()
+        {
+
+        }
         public static void HelpPrune()
+        {
+
+        }
+        public static void HelpReport()
+        {
+
+        }
+        public static void HelpUpdate()
+        {
+
+        }
+        public static void HelpSettings()
+        {
+
+        }
+        public static void HelpHelp()
         {
 
         }

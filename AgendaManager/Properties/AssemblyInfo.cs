@@ -12,9 +12,9 @@ using System.Runtime.InteropServices;
 // attribute to true on that type.
 
 [assembly: ComVisible(true)]
-[assembly: AssemblyVersion("0.1.2.4")]
-[assembly: AssemblyFileVersion("0.1.2.4")]
-[assembly: AssemblyInformationalVersion("0.1.2.4-DEBUG")]
+[assembly: AssemblyVersion("0.1.3.0")]
+[assembly: AssemblyFileVersion("0.1.3.0")]
+[assembly: AssemblyInformationalVersion("0.1.3.0")]
 [assembly: AssemblyTitle("Agenda Manager")]
 [assembly: AssemblyDescription("Agenda Manager")]
 [assembly: AssemblyCompany("Andrew1013-development")]

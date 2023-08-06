@@ -12,7 +12,7 @@ namespace AgendaLibrary
         {
             int actual_exit = (int)exit;
             Console.WriteLine($"Agenda Manager is exiting with code {actual_exit}");
-            if (exit > 0)
+            if (actual_exit > 0 && actual_exit != 7)
             {
                 Console.WriteLine("There was a problem during execution, program is terminating");
                 Console.WriteLine($"Error: {exit}");
@@ -21,7 +21,7 @@ namespace AgendaLibrary
                 Console.WriteLine("Waiting 5 seconds to exit.....");
                 Thread.Sleep(5000);
             }
-            //Environment.Exit(actual_exit);
+            Environment.Exit(actual_exit);
         }
     }
 }

@@ -54,7 +54,7 @@
 
   <PropertyGroup>
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-	<BaseOutputPath>Y:\agenda-manager\bin</BaseOutputPath>
+	<BaseOutputPath>Z:\agenda-manager\bin</BaseOutputPath>
   </PropertyGroup>
 
 </Project>

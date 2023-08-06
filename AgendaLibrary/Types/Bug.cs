@@ -1,6 +1,6 @@
 ﻿using MongoDB.Bson;
 
-namespace csharp_mongodb_quickstart
+namespace AgendaLibrary
 {
     public class Bug
     {

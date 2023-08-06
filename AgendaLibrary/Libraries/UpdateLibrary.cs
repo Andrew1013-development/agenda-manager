@@ -16,17 +16,18 @@ namespace AgendaLibrary
             try 
             {
                 var latest = await client.Repository.Release.GetLatest("Andrew1013-development", "agenda-manager");
-                Console.WriteLine($"The latest release version name is: {latest.TagName}");
-                Console.WriteLine($"Description of release: {latest.Body}");
-                Console.WriteLine($"URL of release: {latest.Url}");
-                Console.WriteLine($"Release assets' URL: {latest.AssetsUrl}");
                 if (compare_versions(current_version, latest.TagName))
                 {
                     Console.WriteLine("Update detected, ready to install and update");
+                    Console.WriteLine($"The latest release version name is: {latest.TagName}");
+                    Console.WriteLine($"Description of release: {latest.Body}");
+                    Console.WriteLine($"URL of release: {latest.Url}");
+                    Console.WriteLine($"Release assets' URL: {latest.AssetsUrl}");
                     return Tuple.Create(true, new Uri(latest.Assets.ElementAt(0).BrowserDownloadUrl), exitCode.SuccessfulExecution);
                 } else
                 {
-                    return Tuple.Create(false,new Uri("https://www.youtube.com/watch?v=EgrhzWzfTb4"),exitCode.FetchUpdateFailure);
+                    Console.WriteLine("Your program is updated.");
+                    return Tuple.Create(false,new Uri("https://www.youtube.com/watch?v=EgrhzWzfTb4"),exitCode.SuccessfulExecution);
                 }
             } 
             catch (ApiException ae)

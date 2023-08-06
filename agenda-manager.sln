@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgendaManager", "AgendaMana
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgendaLibrary", "AgendaLibrary\AgendaLibrary.csproj", "{5BB6EBDB-BD49-4B7C-915F-F6095BCD3DA4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaManagerUpdater", "AgendaManagerUpdater\AgendaManagerUpdater.csproj", "{DD8AD267-4CE7-4E51-BEE1-283430BCABB6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgendaManagerUpdater", "AgendaManagerUpdater\AgendaManagerUpdater.csproj", "{DD8AD267-4CE7-4E51-BEE1-283430BCABB6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgendaManagerTester", "AgendaManagerTester\AgendaManagerTester.csproj", "{3A8323BD-D176-40C1-BD26-3F29307C51E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{DD8AD267-4CE7-4E51-BEE1-283430BCABB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD8AD267-4CE7-4E51-BEE1-283430BCABB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD8AD267-4CE7-4E51-BEE1-283430BCABB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A8323BD-D176-40C1-BD26-3F29307C51E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A8323BD-D176-40C1-BD26-3F29307C51E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A8323BD-D176-40C1-BD26-3F29307C51E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A8323BD-D176-40C1-BD26-3F29307C51E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

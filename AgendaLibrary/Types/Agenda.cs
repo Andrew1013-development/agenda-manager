@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace csharp_mongodb_quickstart
+namespace AgendaLibrary
 {
     public class Agenda {
         public ObjectId Id { get; set; }
