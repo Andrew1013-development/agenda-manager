@@ -1,12 +1,13 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.IO;
 using MongoDB.Driver;
+using System.Runtime.CompilerServices;
 
 namespace AgendaLibrary
 {
     public class UploadLibrary
     {
-        public static void UploadAgenda(IMongoCollection<Agenda> agenda_collection) 
+        public static async void UploadAgenda(IMongoCollection<Agenda> agenda_collection) 
         {
             var json_settings = new JsonWriterSettings { Indent = true };
             string? subject_input = "";
@@ -60,10 +61,11 @@ namespace AgendaLibrary
             // turn into "data packet"
             Console.WriteLine("Uploading agenda to database.....");
             Agenda newAgenda = new Agenda(subject_input, deadline_input, content_input, notes_input);
+            // insert data packet into database (async)
+            Task uploadTask = agenda_collection.InsertOneAsync(newAgenda);
             Console.WriteLine(newAgenda.ToJson(json_settings));
-            // insert data packet into database
-            agenda_collection.InsertOne(newAgenda);
-            Console.WriteLine("Uploaded to database.");
+            await uploadTask;
+            Console.WriteLine("Uploaded agenda to database.");
         }
         public static void UploadBug(IMongoCollection<Bug> bug_collection) 
         {
@@ -98,13 +100,14 @@ namespace AgendaLibrary
             bug_collection.InsertOne(newBug);
             Console.WriteLine("Bug reported! Thanks for your feedback!");
         }
-        public static void UploadTelemetry(IMongoCollection<Telemetry> telemetry_collection)
+        public static async void UploadTelemetry(IMongoCollection<Telemetry> telemetry_collection)
         {
             var json_settings = new JsonWriterSettings { Indent = true };
             Telemetry newTelemetry = new Telemetry();
             Console.WriteLine("Uploading telemetry data to database.....");
+            Task uploadTask = telemetry_collection.InsertOneAsync(newTelemetry);
             Console.WriteLine(newTelemetry.ToJson(json_settings));
-            telemetry_collection.InsertOne(newTelemetry);
+            await uploadTask;
             Console.WriteLine("Uploaded telemetry data to database.");
         }
     }

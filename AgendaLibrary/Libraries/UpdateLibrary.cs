@@ -5,6 +5,7 @@ using System.Net;
 using System.IO;
 using Octokit;
 using System.Text;
+using MongoDB.Driver.Core.Authentication;
 
 namespace AgendaLibrary
 {
@@ -16,10 +17,11 @@ namespace AgendaLibrary
             try 
             {
                 var latest = await client.Repository.Release.GetLatest("Andrew1013-development", "agenda-manager");
+                Console.WriteLine($"Latest version available: {latest.TagName}");
                 if (compare_versions(current_version, latest.TagName))
                 {
                     Console.WriteLine("Update detected, ready to install and update");
-                    Console.WriteLine($"The latest release version name is: {latest.TagName}");
+                    Console.WriteLine($"The latest release version name: {latest.TagName}");
                     Console.WriteLine($"Description of release: {latest.Body}");
                     Console.WriteLine($"URL of release: {latest.Url}");
                     Console.WriteLine($"Release assets' URL: {latest.AssetsUrl}");
@@ -30,7 +32,7 @@ namespace AgendaLibrary
                     return Tuple.Create(false,new Uri("https://www.youtube.com/watch?v=EgrhzWzfTb4"),exitCode.SuccessfulExecution);
                 }
             } 
-            catch (ApiException ae)
+            catch (ApiException)
             {
                 Console.WriteLine("Cannot check for updates.");
                 return Tuple.Create(false,new Uri("https://www.youtube.com/watch?v=dYWOi1bK48s"), exitCode.FetchUpdateFailure);
@@ -43,47 +45,68 @@ namespace AgendaLibrary
             var web_client = new WebClient();
             web_client.Headers.Add(HttpRequestHeader.UserAgent, "subscribe-to-cef");
             if (File.Exists(@"AgendaManagerUpdater.exe")) {
-                Console.WriteLine("Updater is already installed and found, skipping download");
+                Console.WriteLine("Updater is already installed and found, deleting old version");
                 return exitCode.SuccessfulExecution;
             } 
-            else
+            try
             {
+                var latest = await github_client.Repository.Release.GetLatest("Andrew1013-development", "agenda-manager");
                 try
                 {
-                    var latest = await github_client.Repository.Release.GetLatest("Andrew1013-development", "agenda-manager");
-                    try
-                    {
-                        web_client.DownloadFile(new Uri(latest.Assets.ElementAt(1).BrowserDownloadUrl), @"AgendaManagerUpdater.exe");
-                        return exitCode.SuccessfulExecution;
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine("Cannot download updater to perform update.");
-                        return exitCode.DownloadUpdateFailure;
-                    }
+                    web_client.DownloadFile(new Uri(latest.Assets.ElementAt(1).BrowserDownloadUrl), @"AgendaManagerUpdater.exe");
+                    return exitCode.SuccessfulExecution;
                 }
-                catch (ApiException ae)
+                catch (Exception)
                 {
                     Console.WriteLine("Cannot download updater to perform update.");
                     return exitCode.DownloadUpdateFailure;
                 }
-            } 
+            }
+            catch (ApiException)
+            {
+                Console.WriteLine("Cannot download updater to perform update.");
+                return exitCode.DownloadUpdateFailure;
+            }
         }
 
-        public static exitCode DownloadUpdate(Uri download_uri)
+        public static async Task<exitCode> DownloadUpdate(Uri download_uri)
         {
             Console.WriteLine($"Downloading update from {download_uri} to {Directory.GetCurrentDirectory()}.....");
-            WebClient client = new WebClient();
-            client.Headers.Add(HttpRequestHeader.UserAgent, "subscribe-to-eviel");
+            // check if updater already exists -> delete
             if (File.Exists(@"AgendaManager_update.exe"))
             {
                 File.Delete(@"AgendaManager_update.exe");
             }
+            // download new updater
             try
             {
-                client.DownloadFile(download_uri, @"AgendaManager_update.exe");
+                //WebClient client = new WebClient();
+                //client.Headers.Add(HttpRequestHeader.UserAgent, "subscribe-to-eviel");
+                //client.DownloadFile(download_uri, @"AgendaManager_update.exe");
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Add("user-agent", "subscribe-to-eviel");
+                var response = await client.GetAsync(download_uri);
+                if (response.IsSuccessStatusCode)
+                {
+                    try
+                    {
+                        FileStream file_stream = new FileStream(@"AgendaManager_update.exe", System.IO.FileMode.Create);
+                        Stream web_stream = await client.GetStreamAsync(download_uri);
+                        web_stream.CopyTo(file_stream);
+                        file_stream.Close(); // must close otherwise it's still accessing the file
+                    } 
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                        return exitCode.DownloadUpdateFailure;
+                    }
+                    
+                } else
+                {
+                    return exitCode.DownloadUpdateFailure;
+                }
             } 
-            catch (Exception e)
+            catch (Exception)
             {
                 Console.WriteLine("Cannot download update file.");
                 return exitCode.DownloadUpdateFailure;
@@ -94,7 +117,7 @@ namespace AgendaLibrary
 
         public static exitCode InstallUpdate() 
         {
-            Console.WriteLine("Sleeping 30 seconds for Agenda Manager to fully quit exiting (for safety).....");
+            Console.WriteLine("Waiting 30 seconds for Agenda Manager to fully quit exiting (for safety).....");
             Thread.Sleep(30000);
             Console.WriteLine("Creating backup of the old version.....");
             File.Move(@"AgendaManager.exe", @"AgendaManager_old.exe", true);

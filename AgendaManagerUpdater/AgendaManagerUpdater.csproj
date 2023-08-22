@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -22,9 +22,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="King's Court - Jose Pavli - Project Wingman Soundtrack (2020).wav">
+    <Content Include="King's Court - Jose Pavli - Project Wingman Soundtrack (2020).wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    </Content>
   </ItemGroup>
 
 	<PropertyGroup>
