@@ -4,14 +4,15 @@ using System.Threading.Tasks;
 using System.Net;
 using System.IO;
 using Octokit;
+using AgendaLibrary.Definitions;
 using System.Text;
 using MongoDB.Driver.Core.Authentication;
 
-namespace AgendaLibrary
+namespace AgendaLibrary.Libraries
 {
     public class UpdateLibrary
     {
-        public static async Task<Tuple<bool,Uri,AgendaLibrary.exitCode>> CheckForUpdate(string current_version)
+        public static async Task<Tuple<bool,Uri,exitCode>> CheckForUpdate(string current_version)
         {
             var client = new GitHubClient(new ProductHeaderValue("subscribe-to-hamyly"));
             try 

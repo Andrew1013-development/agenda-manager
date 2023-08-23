@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 * 11 = unknown exit code
 */
 
-namespace AgendaLibrary
+namespace AgendaLibrary.Definitions
 {
     public enum exitCode
     {

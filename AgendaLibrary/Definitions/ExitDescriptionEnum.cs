@@ -1,4 +1,4 @@
-﻿namespace AgendaLibrary 
+﻿namespace AgendaLibrary.Definitions
 { 
     public enum exitDescriptions
     {

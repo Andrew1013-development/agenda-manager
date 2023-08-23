@@ -1,6 +1,6 @@
 ﻿using MongoDB.Bson;
 
-namespace AgendaLibrary
+namespace AgendaLibrary.Types
 {
     public class Bug
     {

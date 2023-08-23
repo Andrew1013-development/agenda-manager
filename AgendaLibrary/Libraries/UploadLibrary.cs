@@ -1,9 +1,10 @@
-﻿using MongoDB.Bson;
+﻿using AgendaLibrary.Types;
+using MongoDB.Bson;
 using MongoDB.Bson.IO;
 using MongoDB.Driver;
 using System.Runtime.CompilerServices;
 
-namespace AgendaLibrary
+namespace AgendaLibrary.Libraries
 {
     public class UploadLibrary
     {

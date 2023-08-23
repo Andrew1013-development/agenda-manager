@@ -10,21 +10,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="King%27s Court - Jose Pavli - Project Wingman Soundtrack %282020%29.wav" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\AgendaLibrary\AgendaLibrary.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="System.Windows.Extensions" Version="7.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="King's Court - Jose Pavli - Project Wingman Soundtrack (2020).wav">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
 	<PropertyGroup>

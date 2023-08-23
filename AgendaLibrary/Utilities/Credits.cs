@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Runtime;
 using Windows.UI.Core;
 
-namespace AgendaLibrary
+namespace AgendaLibrary.Utilities
 {
     public class Credits
     {

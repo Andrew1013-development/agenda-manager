@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AgendaLibrary.Definitions;
 
-namespace AgendaLibrary
+namespace AgendaLibrary.Libraries
 {
     public class ExitLibrary
     {

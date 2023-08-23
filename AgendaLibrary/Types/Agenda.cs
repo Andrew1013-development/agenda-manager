@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AgendaLibrary
+namespace AgendaLibrary.Types
 {
     public class Agenda {
         public ObjectId Id { get; set; }

@@ -1,10 +1,20 @@
-﻿using MongoDB.Driver;
+﻿//MongoDB
+using MongoDB.Driver;
 using MongoDB.Bson;
 using MongoDB.Bson.IO;
+//System
+using System;
 using System.Reflection;
 using System.Diagnostics;
+using System.Text;
+//AgendaLibrary
 using AgendaLibrary;
-using Microsoft.Extensions.Logging;
+using AgendaLibrary.Definitions;
+using AgendaLibrary.Libraries;
+using AgendaLibrary.Utilities;
+using AgendaLibrary.Types;
+//Octokit
+using Octokit;
 
 
 // global variables to use
@@ -21,19 +31,22 @@ var telemetry_filter = Builders<Telemetry>.Filter.Empty;
 exitCode ec = exitCode.SuccessfulExecution;
 var stopwatch = new Stopwatch();
 Logger logger = new Logger("manager.log");
+LanguageLibrary ll_c = new LanguageLibrary("vi");
 
 #region startup code
 // setting up
 stopwatch.Start();
+Console.OutputEncoding = Encoding.UTF8; // allow output of Unicode characters
+Console.InputEncoding = Encoding.UTF8; // allow input of Unicode characters
 
 // logging
-Console.WriteLine("Creating log file.....");
+Console.WriteLine($"{LanguageLibrary.GetString("create_log")}");
 logger.LogInformation("creating log file.....");
-Console.WriteLine("Logging file created.");
+Console.WriteLine($"{LanguageLibrary.GetString("create_log_finish")}");
 logger.LogInformation("log file created");
 
 // mongodb connection
-Console.WriteLine("Establishing connection to database.....");
+Console.WriteLine($"{LanguageLibrary.GetString("establish_connection")}");
 logger.LogInformation("establishing a connection to database");
 var settings = MongoClientSettings.FromConnectionString(connectionString);
 var client = new MongoClient(settings);
@@ -48,18 +61,18 @@ var telemetry_collection = client.GetDatabase("homework-database").GetCollection
 logger.LogInformation("getting bug collection");
 var bug_collection = client.GetDatabase("homework-database").GetCollection<Bug>("bug");
 
-Console.WriteLine("Connection to database established.");
+Console.WriteLine($"{LanguageLibrary.GetString("establish_connection_finish")}");
 logger.LogInformation("database connection established");
 
 // json writer
-Console.WriteLine("Setting up JSON writer.....");
+Console.WriteLine($"{LanguageLibrary.GetString("setup_json")}");
 logger.LogInformation("setting up JSON writer");
 var json_settings = new JsonWriterSettings { Indent = true };
 logger.LogInformation("JSON writer set up");
-Console.WriteLine("JSON writer set up.");
+Console.WriteLine($"{LanguageLibrary.GetString("setup_json_finish")}");
 
 // download updater thread
-Console.WriteLine("Setting up thread for updater download.....");
+Console.WriteLine($"{LanguageLibrary.GetString("updater_thread")}");
 logger.LogInformation("setting up updater thread");
 Thread download_thread = new Thread(async() =>
 {
@@ -67,18 +80,18 @@ Thread download_thread = new Thread(async() =>
     ec = download_updater;
 });
 logger.LogInformation("updater thread set up.");
-Console.WriteLine("Updater thread set up.");
+Console.WriteLine($"{LanguageLibrary.GetString("updater_thread_finish")}");
 
 stopwatch.Stop();
 logger.LogInformation($"all parts started up in {stopwatch.ElapsedMilliseconds} ms");
-Console.WriteLine("Waiting 3 seconds until starting up.....");
+Console.WriteLine($"{LanguageLibrary.GetString("wait_to_start")}");
 Thread.Sleep(3000);
 #endregion
 
 Console.Clear();
 #region debug code only
 #if DEBUG
-Console.WriteLine("***THIS IS A DEBUG BUILD, PERFORMANCE WILL BE REDUCED, USE WITH CAUTION.***");
+Console.WriteLine($"***{LanguageLibrary.GetString("debug_warning")}***");
 #endif
 #endregion
 Console.WriteLine();
