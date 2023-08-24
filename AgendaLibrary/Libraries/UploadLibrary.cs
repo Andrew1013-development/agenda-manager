@@ -3,18 +3,19 @@ using MongoDB.Bson;
 using MongoDB.Bson.IO;
 using MongoDB.Driver;
 using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace AgendaLibrary.Libraries
 {
     public class UploadLibrary
-    {
+    {     
         public static async void UploadAgenda(IMongoCollection<Agenda> agenda_collection) 
         {
             var json_settings = new JsonWriterSettings { Indent = true };
             string? subject_input = "";
-            while (subject_input == String.Empty)
+            while (String.IsNullOrEmpty(subject_input))
             {
-                Console.Write("Subject: ");
+                Console.Write($"{LanguageLibrary.GetString("subject")}: ");
                 subject_input = Console.ReadLine();
                 if (String.IsNullOrEmpty(subject_input))
                 {
@@ -23,14 +24,22 @@ namespace AgendaLibrary.Libraries
             }
 
             string? deadline_input = "";
-            while (deadline_input == String.Empty)
+            bool deadline_input_check = false;
+            while (!deadline_input_check)
             {
-                Console.Write("Deadline: ");
+                Console.Write($"{LanguageLibrary.GetString("deadline")}: ");
                 deadline_input = Console.ReadLine();
                 if (DateTime.TryParse(deadline_input, out DateTime dt))
                 {
-                    deadline_input = dt.ToShortDateString();
-                    break;
+                    if (dt > DateTime.Now)
+                    {
+                        deadline_input = dt.ToShortDateString();
+                        deadline_input_check = true;
+                    } 
+                    else
+                    {
+                        Console.WriteLine("Date entered cannot be earlier than or equal to today.");
+                    }
                 }
                 else
                 {
@@ -40,25 +49,25 @@ namespace AgendaLibrary.Libraries
                     }
                     else
                     {
-                        Console.WriteLine("Date enter does not translate to a valid day.");
+                        Console.WriteLine("Date entered does not translate to a valid day.");
                     }
                 }
             }
 
             string? content_input = "";
-            while (content_input == String.Empty)
+            while (String.IsNullOrEmpty(content_input))
             {
-                Console.Write("Content: ");
+                Console.Write($"{LanguageLibrary.GetString("content")}: ");
                 content_input = Console.ReadLine();
                 if (String.IsNullOrEmpty(content_input))
                 {
-                    Console.WriteLine("Content cannot be empty");
+                    Console.WriteLine("Content cannot be empty.");
                 }
             }
 
-            Console.Write("Notes: ");
+            Console.Write($"{LanguageLibrary.GetString("notes")}: ");
             string? notes_input = Console.ReadLine();
-
+            Console.WriteLine(subject_input);
             // turn into "data packet"
             Console.WriteLine("Uploading agenda to database.....");
             Agenda newAgenda = new Agenda(subject_input, deadline_input, content_input, notes_input);
@@ -73,7 +82,7 @@ namespace AgendaLibrary.Libraries
             var json_settings = new JsonWriterSettings { Indent = true };
             Console.WriteLine("TIP: Press Ctrl+Z to denote the end of input, type with lines freely");
             string? name_input = "";
-            while (name_input == String.Empty)
+            while (String.IsNullOrEmpty(name_input))
             {
                 Console.WriteLine("Give a brief description of the bug");
                 name_input = Console.In.ReadToEnd();
@@ -84,7 +93,7 @@ namespace AgendaLibrary.Libraries
             }
 
             string? reproduction_input = "";
-            while (reproduction_input == String.Empty)
+            while (String.IsNullOrEmpty(reproduction_input))
             {
                 Console.WriteLine("Describe how to reproduce the bug");
                 reproduction_input = Console.In.ReadToEnd();
@@ -95,6 +104,7 @@ namespace AgendaLibrary.Libraries
             }
 
             // turn into data packet
+            reproduction_input = bug_reproduction_processing(reproduction_input);
             Bug newBug = new Bug(name_input, reproduction_input);
             // insert data packet into database
             Console.WriteLine(newBug.ToJson(json_settings));
@@ -105,11 +115,16 @@ namespace AgendaLibrary.Libraries
         {
             var json_settings = new JsonWriterSettings { Indent = true };
             Telemetry newTelemetry = new Telemetry();
-            Console.WriteLine("Uploading telemetry data to database.....");
+            //Console.WriteLine("Uploading telemetry data to database.....");
             Task uploadTask = telemetry_collection.InsertOneAsync(newTelemetry);
-            Console.WriteLine(newTelemetry.ToJson(json_settings));
+            //Console.WriteLine(newTelemetry.ToJson(json_settings));
             await uploadTask;
-            Console.WriteLine("Uploaded telemetry data to database.");
+            //Console.WriteLine("Uploaded telemetry data to database.");
+        }
+        internal static string bug_reproduction_processing(string bug_reproduction_original)
+        {
+            string bug_reproducion_processed = bug_reproduction_original.Replace("\n", "");
+            return bug_reproducion_processed;
         }
     }
 }

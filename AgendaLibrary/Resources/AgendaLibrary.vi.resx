@@ -117,14 +117,44 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="agenda" xml:space="preserve">
+    <value>dặn dò</value>
+  </data>
+  <data name="agenda_available" xml:space="preserve">
+    <value>Dặn dò để làm</value>
+  </data>
+  <data name="agenda_database" xml:space="preserve">
+    <value>Số dặn dò trên cơ sở dữ liệu</value>
+  </data>
+  <data name="bug_report_role" xml:space="preserve">
+    <value>Báo cáo lỗi trong chương trình</value>
+  </data>
+  <data name="command_entered" xml:space="preserve">
+    <value>Lệnh bạn gõ vào</value>
+  </data>
+  <data name="content" xml:space="preserve">
+    <value>Nội dung</value>
+  </data>
   <data name="create_log" xml:space="preserve">
     <value>Tạo tệp theo dõi.....</value>
   </data>
   <data name="create_log_finish" xml:space="preserve">
     <value>Tệp theo dõi đã tạo.</value>
   </data>
+  <data name="credits_role" xml:space="preserve">
+    <value>Xem danh sách người tham gia trong hoạt động làm chương trình</value>
+  </data>
+  <data name="current_date_time" xml:space="preserve">
+    <value>Ngày và thời gian hiện tại</value>
+  </data>
+  <data name="deadline" xml:space="preserve">
+    <value>Hạn chót</value>
+  </data>
   <data name="debug_warning" xml:space="preserve">
     <value>ĐÂY LÀ BẢN DEBUG, HIỆN NĂNG SẺ GIẢM, SỬ DỤNG VỚI SỰ CẨN THẬN.</value>
+  </data>
+  <data name="empty_role_warning" xml:space="preserve">
+    <value>Lựa chọn thao tác không thể trống.</value>
   </data>
   <data name="establish_connection" xml:space="preserve">
     <value>Kết nối đến cơ sở dữ liệu.....</value>
@@ -132,11 +162,56 @@
   <data name="establish_connection_finish" xml:space="preserve">
     <value>Đã kết nối đến cơ sở dữ liệu.</value>
   </data>
+  <data name="exit_role" xml:space="preserve">
+    <value>Thoát (thoát chương trình)</value>
+  </data>
+  <data name="fetch_database" xml:space="preserve">
+    <value>Lấy các dặn dò từ cơ sở dữ liệu.....</value>
+  </data>
+  <data name="help_role" xml:space="preserve">
+    <value>Mở Trợ giúp (chưa hoàn thành)</value>
+  </data>
+  <data name="library" xml:space="preserve">
+    <value>thư viện bản</value>
+  </data>
+  <data name="notes" xml:space="preserve">
+    <value>Ghi chú</value>
+  </data>
+  <data name="pruner_role" xml:space="preserve">
+    <value>Tỉa (Xóa bỏ các dặn dò lỗi thời trong cơ sở dữ liệu)</value>
+  </data>
+  <data name="receiver_role" xml:space="preserve">
+    <value>Nhận (nhận các dặn dò từ cơ sở dữ liệu)</value>
+  </data>
+  <data name="role_selection" xml:space="preserve">
+    <value>Các lựa chọn thao tác</value>
+  </data>
+  <data name="secret_shell_access" xml:space="preserve">
+    <value>Bạn đã truy cập vào menu bí mật!</value>
+  </data>
+  <data name="secret_shell_note" xml:space="preserve">
+    <value>Đây chỉ là môi trường mã lệnh thử nghiệm, gõ lệnh "exit" để thoát</value>
+  </data>
+  <data name="setting_role" xml:space="preserve">
+    <value>Chỉnh sửa cài đặt (chưa hoàn thành)</value>
+  </data>
   <data name="setup_json" xml:space="preserve">
     <value>Đang tạo trình viết JSON.....</value>
   </data>
   <data name="setup_json_finish" xml:space="preserve">
     <value>Trình viết JSON đã tạo.</value>
+  </data>
+  <data name="specify_password" xml:space="preserve">
+    <value>Gõ mật mã</value>
+  </data>
+  <data name="specify_role" xml:space="preserve">
+    <value>Chọn thao tác bạn muốn làm tương ứng với các số trên</value>
+  </data>
+  <data name="started_up" xml:space="preserve">
+    <value>bật lên trong</value>
+  </data>
+  <data name="subject" xml:space="preserve">
+    <value>Môn học</value>
   </data>
   <data name="updater_thread" xml:space="preserve">
     <value>Tạo luồng để tải trình cập nhật.....</value>
@@ -144,7 +219,19 @@
   <data name="updater_thread_finish" xml:space="preserve">
     <value>Luồng tải trình cập nhật đã tạo.</value>
   </data>
+  <data name="update_role" xml:space="preserve">
+    <value>Kiểm tra cập nhật</value>
+  </data>
+  <data name="uploader_role" xml:space="preserve">
+    <value>Tải lên (tải lên các dặn dò lên cơ sở dữ liệu)</value>
+  </data>
   <data name="wait_to_start" xml:space="preserve">
     <value>Chờ 3 giây để bật lên.....</value>
+  </data>
+  <data name="welcome" xml:space="preserve">
+    <value>Chào mừng đến với Agenda Manager bản</value>
+  </data>
+  <data name="wrong_password" xml:space="preserve">
+    <value>Mật mã sai.</value>
   </data>
 </root>

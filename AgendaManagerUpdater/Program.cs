@@ -2,7 +2,9 @@
 using System.Diagnostics;
 using System.Media;
 using System.Reflection;
-using AgendaLibrary;
+using AgendaLibrary.Utilities;
+using AgendaLibrary.Libraries;
+using AgendaLibrary.Definitions;
 
 // global variable
 string? am_version = "";
@@ -10,6 +12,11 @@ string? amu_version = Assembly.GetExecutingAssembly().GetName()?.Version?.ToStri
 var stopwatch = new Stopwatch();
 Logger logger = new Logger("updater.log");
 exitCode ec = exitCode.SuccessfulExecution;
+SoundPlayer sp = new SoundPlayer(AgendaManagerUpdater.Resources.AgendaManagerUpdater.kings_court_pw);
+Thread music_thread = new Thread(() =>
+{
+    sp.PlaySync();
+});
 
 Console.WriteLine("Fetching version information from Agenda Manager.....");
 if (File.Exists(@"am_version.txt"))
@@ -28,7 +35,8 @@ Console.WriteLine("Waiting 5 seconds before starting update process.....");
 Thread.Sleep(5000);
 Console.WriteLine("Downloading and installing update.....");
 stopwatch.Start();
-Tuple<bool, Uri, exitCode> check_update = await UpdateLibrary.CheckForUpdate(am_version);
+music_thread.Start();
+Tuple<bool, Uri, exitCode> check_update = await UpdateLibrary.CheckForUpdate(am_version, false);
 if (check_update.Item1 == true && check_update.Item3 == exitCode.SuccessfulExecution)
 {
     ec = await UpdateLibrary.DownloadUpdate(check_update.Item2);
@@ -39,6 +47,7 @@ if (check_update.Item1 == true && check_update.Item3 == exitCode.SuccessfulExecu
         {
             stopwatch.Stop();
             Console.WriteLine($"Update installed in {stopwatch.ElapsedMilliseconds} ms");
+            music_thread.Join();
         } 
         else
         {
@@ -53,4 +62,4 @@ if (check_update.Item1 == true && check_update.Item3 == exitCode.SuccessfulExecu
 {
     Console.WriteLine("There was a problem fetching updates, try again later");
 }
-ExitLibrary.ProperExit(ec);
+ExitLibrary.ProperExit2(ec);

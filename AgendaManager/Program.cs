@@ -7,6 +7,7 @@ using System;
 using System.Reflection;
 using System.Diagnostics;
 using System.Text;
+using System.Threading.Tasks;
 //AgendaLibrary
 using AgendaLibrary;
 using AgendaLibrary.Definitions;
@@ -31,13 +32,13 @@ var telemetry_filter = Builders<Telemetry>.Filter.Empty;
 exitCode ec = exitCode.SuccessfulExecution;
 var stopwatch = new Stopwatch();
 Logger logger = new Logger("manager.log");
-LanguageLibrary ll_c = new LanguageLibrary("vi");
+LanguageLibrary ll_c = new LanguageLibrary(LanguagePreference.Vietnamese);
 
 #region startup code
 // setting up
 stopwatch.Start();
-Console.OutputEncoding = Encoding.UTF8; // allow output of Unicode characters
-Console.InputEncoding = Encoding.UTF8; // allow input of Unicode characters
+Console.OutputEncoding = Encoding.Unicode; // allow output of Unicode characters
+Console.InputEncoding = Encoding.Unicode; // allow input of Unicode characters
 
 // logging
 Console.WriteLine($"{LanguageLibrary.GetString("create_log")}");
@@ -74,10 +75,11 @@ Console.WriteLine($"{LanguageLibrary.GetString("setup_json_finish")}");
 // download updater thread
 Console.WriteLine($"{LanguageLibrary.GetString("updater_thread")}");
 logger.LogInformation("setting up updater thread");
-Thread download_thread = new Thread(async() =>
+Thread download_updater_thread = new Thread( async() =>
 {
-    exitCode download_updater = await UpdateLibrary.DownloadUpdater();
-    ec = download_updater;
+    // run in task so it would wait until task is finished
+    Task download_task = new Task( () => UpdateLibrary.DownloadUpdater());
+    await download_task;
 });
 logger.LogInformation("updater thread set up.");
 Console.WriteLine($"{LanguageLibrary.GetString("updater_thread_finish")}");
@@ -95,9 +97,9 @@ Console.WriteLine($"***{LanguageLibrary.GetString("debug_warning")}***");
 #endif
 #endregion
 Console.WriteLine();
-Console.WriteLine($"Welcome to Agenda Manager v{version} - library v{ExposeVersioning.LibraryVersion()} (started up in {stopwatch.ElapsedMilliseconds} ms)");
-Console.WriteLine($"Current date and time: {DateTime.Now}");
-Console.WriteLine($"Agendas on database: {agenda_search.Count} agendas");
+Console.WriteLine($"{LanguageLibrary.GetString("welcome")} v{version} - {LanguageLibrary.GetString("library")} v{ExposeVersioning.LibraryVersion()} ({LanguageLibrary.GetString("started_up")} {stopwatch.ElapsedMilliseconds} ms)");
+Console.WriteLine($"{LanguageLibrary.GetString("current_date_time")}: {DateTime.Now}");
+Console.WriteLine($"{LanguageLibrary.GetString("agenda_database")}: {agenda_search.Count} {LanguageLibrary.GetString("agenda")}");
 Console.WriteLine();
 
 // specify role (uploader / receiver)
@@ -105,25 +107,25 @@ string? role = "";
 string? loop = "";
 while (loop != "1")
 {
-    Console.WriteLine("Role selection:");
-    Console.WriteLine("\t1: Uploader (uploading agendas to database)\n" +
-        "\t2: Receiver (receiving upcoming agendas from database)\n" +
-        "\t3: Pruner (pruning old out-of-date agendas from database)\n" +
-        "\t4: View credits\n" +
-        "\t5: Report a bug\n" +
-        "\t6: Check for updates (not finished yet)\n" +
-        "\t7: Change settings (not finished yet)\n" +
-        "\t8: Summon Help\n" +
-        "\t9: Exiting (exit the program)"
+    Console.WriteLine($"{LanguageLibrary.GetString("role_selection")}:");
+    Console.WriteLine($"\t1: {LanguageLibrary.GetString("uploader_role")}\n" +
+        $"\t2: {LanguageLibrary.GetString("receiver_role")}\n" +
+        $"\t3: {LanguageLibrary.GetString("pruner_role")}\n" +
+        $"\t4: {LanguageLibrary.GetString("credits_role")}\n" +
+        $"\t5: {LanguageLibrary.GetString("bug_report_role")}\n" +
+        $"\t6: {LanguageLibrary.GetString("update_role")}\n" +
+        $"\t7: {LanguageLibrary.GetString("setting_role")}\n" +
+        $"\t8: {LanguageLibrary.GetString("help_role")}\n" +
+        $"\t9: {LanguageLibrary.GetString("exit_role")}"
         );
     while (role == null || role == String.Empty)
     {
-        Console.Write("Specify your role in the designated number above: ");
+        Console.Write($"{LanguageLibrary.GetString("specify_role")}: ");
         role = Console.ReadLine();
         logger.LogInformation($"role selected : {role}");
         if (role == null || role == String.Empty)
         {
-            Console.WriteLine("Role input cannot be empty.");
+            Console.WriteLine($"{LanguageLibrary.GetString("empty_role_warning")}");
             logger.LogInformation("role input length is invalid");
         }
     }
@@ -132,20 +134,20 @@ while (loop != "1")
     {
         case "0":
             logger.LogInformation("accessed the secret menu");
-            Console.WriteLine("You have accessed the secret menu!");
-            Console.WriteLine("This is just a shell in testing, type 'exit' to exit the shell.");
+            Console.WriteLine($"{LanguageLibrary.GetString("secret_shell_access")}");
+            Console.WriteLine($"{LanguageLibrary.GetString("secret_shell_note")}");
             string? command = "";
             while (command.ToLower() != "exit")
             {
                 Console.Write("> ");
                 command = Console.ReadLine();
-                Console.WriteLine($"Command you entered: {command}\n");
+                Console.WriteLine($"{LanguageLibrary.GetString("command_entered")}: {command}\n");
             }
             ec = exitCode.SecretMenuAccessed;
             break;
         case "1":
             logger.LogInformation("accessed the upload agenda menu");
-            Console.Write("Specify your password: ");
+            Console.Write($"{LanguageLibrary.GetString("specify_password")}: ");
             string? output = Console.ReadLine();
             logger.LogInformation($"password specified: {output}");
             if (output == uploader_password)
@@ -155,27 +157,28 @@ while (loop != "1")
             }
             else
             {
-                Console.WriteLine("Wrong password entered.");
+                Console.WriteLine($"{LanguageLibrary.GetString("wrong_password")}");
                 logger.LogInformation("wrong password specified");
                 ec = exitCode.WrongPassword;
             }
             break;
         case "2":
             logger.LogInformation("accessed the receive agenda menu");
-            Console.WriteLine("Fetching agenda database.....");
+            Console.WriteLine($"{LanguageLibrary.GetString("fetch_database")}");
             // find from filter (greater than the current date on system)
             agenda_filter = Builders<Agenda>.Filter.Gte("deadline", DateTime.Now.ToShortDateString());
             agenda_search = agenda_collection.Find(agenda_filter).ToList();
             // list individual agendas searched
-            Console.WriteLine($"Agendas available: {agenda_search.Count} agendas");
-            foreach (Agenda agenda in agenda_search)
+            Console.WriteLine($"{LanguageLibrary.GetString("agenda_available")}: {agenda_search.Count} {LanguageLibrary.GetString("agenda")}");
+            for (int i = 0; i < agenda_search.Count; i++)
             {
-                Console.WriteLine(agenda.subject);
-                Console.WriteLine(agenda.content);
-                Console.WriteLine(agenda.deadline);
-                if (!String.IsNullOrEmpty(agenda.notes))
+                Console.WriteLine($"{LanguageLibrary.GetString("agenda")} {i + 1}");
+                Console.WriteLine($"{LanguageLibrary.GetString("subject")}: {agenda_search.ElementAt(i).subject}");
+                Console.WriteLine($"{LanguageLibrary.GetString("content")}: {agenda_search.ElementAt(i).content}");
+                Console.WriteLine($"{LanguageLibrary.GetString("deadline")}: {agenda_search.ElementAt(i).deadline}");
+                if (!String.IsNullOrEmpty(agenda_search.ElementAt(i).notes))
                 {
-                    Console.WriteLine(agenda.notes);
+                    Console.WriteLine($"{LanguageLibrary.GetString("notes")}: {agenda_search.ElementAt(i).notes}");
                 }
                 Console.WriteLine();
             }
@@ -201,16 +204,20 @@ while (loop != "1")
             break;
         case "6":
             logger.LogInformation("accessed the update menu");
-            Tuple<bool, Uri, exitCode> update_packet = await UpdateLibrary.CheckForUpdate(version);
+            Tuple<bool, Uri, exitCode> update_packet = await UpdateLibrary.CheckForUpdate(version, true);
             if (update_packet.Item1)
             {
                 // jump to end of program to assist updating
                 install_update = true;
                 update_uri = update_packet.Item2;
                 // start downloading updater
-                download_thread.Start();
+                download_updater_thread.Start();
+                Console.WriteLine(download_updater_thread.IsAlive);
+            } 
+            else
+            {
+                ec = update_packet.Item3;
             }
-            ec = update_packet.Item3;
             break;
         case "7":
             logger.LogInformation("accessed the settings menu");
@@ -222,10 +229,7 @@ while (loop != "1")
             break;
         case "9":
             logger.LogInformation("manual exiting");
-            Console.WriteLine("Exiting.....");
             ec = exitCode.SuccessfulExecution;
-            break;
-        case "10":
             break;
         default:
             Console.WriteLine("Invalid role specified.");
@@ -233,7 +237,7 @@ while (loop != "1")
             break;
     }
 
-    if (role != "9" && ec == exitCode.SuccessfulExecution && !install_update)
+    if (role != "9" && ec == exitCode.SuccessfulExecution)
     {
         Console.WriteLine("Exit or continue using?");
         Console.WriteLine("\t0: Continue\n" +
@@ -268,11 +272,21 @@ while (loop != "1")
 
 if (install_update)
 {
+    // finish download updater
+    download_updater_thread.Join();
     // drop version info .txt
     StreamWriter am_version_writer = new StreamWriter(@"am_version.txt");
     am_version_writer.WriteLine(version);
     am_version_writer.Close();
     // move into updater
-    Process.Start("AgendaManagerUpdater.exe");
+    if (File.Exists("AgendaManagerUpdater.exe"))
+    {
+        Process.Start("AgendaManagerUpdater.exe");
+    } 
+    else
+    {
+        Console.WriteLine("Updater not found, update process aborted.");
+        ec = exitCode.InstallUpdateFailure;
+    }
 }
 ExitLibrary.ProperExit(ec);

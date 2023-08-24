@@ -1,6 +1,6 @@
 ﻿namespace AgendaLibrary.Definitions
 { 
-    public enum exitDescriptions
+    public class exitDescriptions
     {
         
     }

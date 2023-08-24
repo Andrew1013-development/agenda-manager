@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AgendaLibrary.Libraries
 {
-    internal class LoggerLibrary
+    public class LoggerLibrary
     {
         
     }

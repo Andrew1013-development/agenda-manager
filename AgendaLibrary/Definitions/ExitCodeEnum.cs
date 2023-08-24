@@ -33,7 +33,8 @@ namespace AgendaLibrary.Definitions
         SecretMenuAccessed = 7,
         FetchUpdateFailure = 8,
         DownloadUpdateFailure = 9,
-        InstallUpdateFailure = 10,
-        UnknownExitCode = 11,
+        DownloadUpdaterFailure = 10,
+        InstallUpdateFailure = 11,
+        UnknownExitCode = 12,
     }
 }

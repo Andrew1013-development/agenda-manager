@@ -117,14 +117,44 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="agenda" xml:space="preserve">
+    <value>agendas</value>
+  </data>
+  <data name="agenda_available" xml:space="preserve">
+    <value>Agendas available</value>
+  </data>
+  <data name="agenda_database" xml:space="preserve">
+    <value>Agendas on database</value>
+  </data>
+  <data name="bug_report_role" xml:space="preserve">
+    <value>Report a bug</value>
+  </data>
+  <data name="command_entered" xml:space="preserve">
+    <value>Command you entered</value>
+  </data>
+  <data name="content" xml:space="preserve">
+    <value>Content</value>
+  </data>
   <data name="create_log" xml:space="preserve">
     <value>Creating log file.....</value>
   </data>
   <data name="create_log_finish" xml:space="preserve">
     <value>Logging file created.</value>
   </data>
+  <data name="credits_role" xml:space="preserve">
+    <value>View credits</value>
+  </data>
+  <data name="current_date_time" xml:space="preserve">
+    <value>Current date and time</value>
+  </data>
+  <data name="deadline" xml:space="preserve">
+    <value>Deadline</value>
+  </data>
   <data name="debug_warning" xml:space="preserve">
     <value>THIS IS A DEBUG BUILD, PERFORMANCE WILL BE REDUCED, USE WITH CAUTION.</value>
+  </data>
+  <data name="empty_role_warning" xml:space="preserve">
+    <value>Role input cannot be empty.</value>
   </data>
   <data name="establish_connection" xml:space="preserve">
     <value>Establishing connection to database.....</value>
@@ -132,11 +162,56 @@
   <data name="establish_connection_finish" xml:space="preserve">
     <value>Connection to database established.</value>
   </data>
+  <data name="exit_role" xml:space="preserve">
+    <value>Exiting (exit the program)</value>
+  </data>
+  <data name="fetch_database" xml:space="preserve">
+    <value>Fetching agenda database.....</value>
+  </data>
+  <data name="help_role" xml:space="preserve">
+    <value>Summon Help (not finished yet)</value>
+  </data>
+  <data name="library" xml:space="preserve">
+    <value>library</value>
+  </data>
+  <data name="notes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="pruner_role" xml:space="preserve">
+    <value>Pruner (pruning old out-of-date agendas from database)</value>
+  </data>
+  <data name="receiver_role" xml:space="preserve">
+    <value>Receiver (receiving upcoming agendas from database)</value>
+  </data>
+  <data name="role_selection" xml:space="preserve">
+    <value>Role selection</value>
+  </data>
+  <data name="secret_shell_access" xml:space="preserve">
+    <value>You have accessed the secret menu!</value>
+  </data>
+  <data name="secret_shell_note" xml:space="preserve">
+    <value>This is just a shell in testing, type 'exit' to exit the shell.</value>
+  </data>
+  <data name="setting_role" xml:space="preserve">
+    <value>Change settings (not finished yet)</value>
+  </data>
   <data name="setup_json" xml:space="preserve">
     <value>Setting up JSON writer.....</value>
   </data>
   <data name="setup_json_finish" xml:space="preserve">
     <value>JSON writer set up.</value>
+  </data>
+  <data name="specify_password" xml:space="preserve">
+    <value>Specify your password</value>
+  </data>
+  <data name="specify_role" xml:space="preserve">
+    <value>Specify your role in the designated number above</value>
+  </data>
+  <data name="started_up" xml:space="preserve">
+    <value>started up in</value>
+  </data>
+  <data name="subject" xml:space="preserve">
+    <value>Subject</value>
   </data>
   <data name="updater_thread" xml:space="preserve">
     <value>Setting up thread for updater download.....</value>
@@ -144,7 +219,19 @@
   <data name="updater_thread_finish" xml:space="preserve">
     <value>Updater thread set up.</value>
   </data>
+  <data name="update_role" xml:space="preserve">
+    <value>Check for updates</value>
+  </data>
+  <data name="uploader_role" xml:space="preserve">
+    <value>Uploader (uploading agendas to database)</value>
+  </data>
   <data name="wait_to_start" xml:space="preserve">
     <value>Waiting 3 seconds until starting up.....</value>
+  </data>
+  <data name="welcome" xml:space="preserve">
+    <value>Welcome to Agenda Manager</value>
+  </data>
+  <data name="wrong_password" xml:space="preserve">
+    <value>Wrong password entered.</value>
   </data>
 </root>

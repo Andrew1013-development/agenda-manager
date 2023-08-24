@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Text;
 using System.Globalization;
-using AgendaLibrary.Resources;
+using AgendaLibrary.Definitions;
 
 namespace AgendaLibrary.Libraries
 {
     public class LanguageLibrary
     {
-        public LanguageLibrary(string language)
+        public LanguageLibrary(LanguagePreference language)
         {
             Console.OutputEncoding = Encoding.UTF8;
-            Resources.AgendaLibrary.Culture = CultureInfo.GetCultureInfo(language);
+            Resources.AgendaLibrary.Culture = CultureInfo.GetCultureInfo(LPToCulture(language));
             Console.WriteLine($"Language: {Resources.AgendaLibrary.Culture.NativeName}");
         }
         public static string GetString(string key)
@@ -22,6 +22,17 @@ namespace AgendaLibrary.Libraries
             } else
             {
                 return result_string;
+            }
+        }
+        internal static string LPToCulture(LanguagePreference language) {
+            switch (language)
+            {
+                case LanguagePreference.English:
+                    return "en";
+                case LanguagePreference.Vietnamese:
+                    return "vi";
+                default:
+                    return "vi"; // default is Vietnamese
             }
         }
     }

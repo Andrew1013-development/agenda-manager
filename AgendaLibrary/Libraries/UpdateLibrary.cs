@@ -1,18 +1,11 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Net;
-using System.IO;
-using Octokit;
+﻿using Octokit;
 using AgendaLibrary.Definitions;
-using System.Text;
-using MongoDB.Driver.Core.Authentication;
 
 namespace AgendaLibrary.Libraries
 {
     public class UpdateLibrary
     {
-        public static async Task<Tuple<bool,Uri,exitCode>> CheckForUpdate(string current_version)
+        public static async Task<Tuple<bool,Uri,exitCode>> CheckForUpdate(string current_version, bool decreased_output)
         {
             var client = new GitHubClient(new ProductHeaderValue("subscribe-to-hamyly"));
             try 
@@ -23,9 +16,12 @@ namespace AgendaLibrary.Libraries
                 {
                     Console.WriteLine("Update detected, ready to install and update");
                     Console.WriteLine($"The latest release version name: {latest.TagName}");
-                    Console.WriteLine($"Description of release: {latest.Body}");
-                    Console.WriteLine($"URL of release: {latest.Url}");
-                    Console.WriteLine($"Release assets' URL: {latest.AssetsUrl}");
+                    if (!decreased_output)
+                    {
+                        Console.WriteLine($"Description of release: {latest.Body}");
+                        Console.WriteLine($"URL of release: {latest.Url}");
+                        Console.WriteLine($"Release assets' URL: {latest.AssetsUrl}");
+                    }
                     return Tuple.Create(true, new Uri(latest.Assets.ElementAt(0).BrowserDownloadUrl), exitCode.SuccessfulExecution);
                 } else
                 {
@@ -40,45 +36,63 @@ namespace AgendaLibrary.Libraries
             }
         }
 
-        public async static Task<exitCode> DownloadUpdater()
+        public static async Task<exitCode> DownloadUpdater()
         {
             var github_client = new GitHubClient(new ProductHeaderValue("subscribe-to-lege"));
-            var web_client = new WebClient();
-            web_client.Headers.Add(HttpRequestHeader.UserAgent, "subscribe-to-cef");
             if (File.Exists(@"AgendaManagerUpdater.exe")) {
-                Console.WriteLine("Updater is already installed and found, deleting old version");
-                return exitCode.SuccessfulExecution;
+                Console.WriteLine("Old updater is found, deleting old version");
+                File.Delete(@"AgendaManagerUpdater.exe");
             } 
             try
             {
                 var latest = await github_client.Repository.Release.GetLatest("Andrew1013-development", "agenda-manager");
                 try
                 {
-                    web_client.DownloadFile(new Uri(latest.Assets.ElementAt(1).BrowserDownloadUrl), @"AgendaManagerUpdater.exe");
+                    Uri download_uri = new Uri(latest.Assets.ElementAt(1).BrowserDownloadUrl);
+                    HttpClient client = new HttpClient();
+                    client.DefaultRequestHeaders.Add("user-agent", "subscribe-to-cef");
+                    var response = await client.GetAsync(download_uri);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        try
+                        {
+                            FileStream file_stream = new FileStream(@"AgendaManagerUpdater.exe", System.IO.FileMode.Create);
+                            Stream web_stream = await client.GetStreamAsync(download_uri);
+                            web_stream.CopyTo(file_stream);
+                            file_stream.Close(); // must close otherwise it's still accessing the file
+                            web_stream.Close();
+                            Console.WriteLine("Finished downloading updater.");
+                        } 
+                        catch (Exception)
+                        {
+                            Console.WriteLine("Cannot download updater to perform update.");
+                            return exitCode.DownloadUpdaterFailure;
+                        }
+                    }
                     return exitCode.SuccessfulExecution;
                 }
                 catch (Exception)
                 {
                     Console.WriteLine("Cannot download updater to perform update.");
-                    return exitCode.DownloadUpdateFailure;
+                    return exitCode.DownloadUpdaterFailure;
                 }
             }
             catch (ApiException)
             {
                 Console.WriteLine("Cannot download updater to perform update.");
-                return exitCode.DownloadUpdateFailure;
+                return exitCode.DownloadUpdaterFailure;
             }
         }
 
         public static async Task<exitCode> DownloadUpdate(Uri download_uri)
         {
             Console.WriteLine($"Downloading update from {download_uri} to {Directory.GetCurrentDirectory()}.....");
-            // check if updater already exists -> delete
+            // check if old update already exists -> delete
             if (File.Exists(@"AgendaManager_update.exe"))
             {
                 File.Delete(@"AgendaManager_update.exe");
             }
-            // download new updater
+            // download new update
             try
             {
                 //WebClient client = new WebClient();
@@ -89,21 +103,24 @@ namespace AgendaLibrary.Libraries
                 var response = await client.GetAsync(download_uri);
                 if (response.IsSuccessStatusCode)
                 {
+                    Console.WriteLine("Downloading updater.....");
                     try
                     {
                         FileStream file_stream = new FileStream(@"AgendaManager_update.exe", System.IO.FileMode.Create);
                         Stream web_stream = await client.GetStreamAsync(download_uri);
                         web_stream.CopyTo(file_stream);
                         file_stream.Close(); // must close otherwise it's still accessing the file
+                        web_stream.Close();
                     } 
-                    catch (Exception e)
+                    catch (Exception)
                     {
-                        Console.WriteLine(e);
+                        Console.WriteLine("Cannot download update file.");
                         return exitCode.DownloadUpdateFailure;
                     }
                     
                 } else
                 {
+                    Console.WriteLine("Cannot download update file.");
                     return exitCode.DownloadUpdateFailure;
                 }
             } 
@@ -132,18 +149,20 @@ namespace AgendaLibrary.Libraries
         // helper functions
         internal static bool compare_versions(string src_version, string upd_version)
         {
-            
-            string[] version1_list = src_version.Split(".");
-            string[] version2_list = upd_version.Split(".");
+            bool update_confirmed = false;
+            string[] src_version_list = src_version.Split(".");
+            string[] upd_version_list = upd_version.Split(".");
             for (int i = 0; i < 4; i++) 
             {
                 // true = update needed, false = no update needed
-                if (int.Parse(version1_list[i]) < int.Parse(version2_list[i]))
+                //Console.WriteLine($"{int.Parse(src_version_list[i])} {int.Parse(upd_version_list[i])}");
+                if (int.Parse(src_version_list[i]) < int.Parse(upd_version_list[i]))
                 {
-                    return true;
+                    update_confirmed = true;
                 }
             }
-            return false;
+            //Console.WriteLine(update_confirmed);
+            return update_confirmed;
         }
     }
 }
