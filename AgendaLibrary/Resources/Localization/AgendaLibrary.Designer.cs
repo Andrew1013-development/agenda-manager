@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AgendaLibrary.Resources {
+namespace AgendaLibrary.Resources.Localization {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace AgendaLibrary.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AgendaLibrary.Resources.AgendaLibrary", typeof(AgendaLibrary).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AgendaLibrary.Resources.Localization.AgendaLibrary", typeof(AgendaLibrary).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

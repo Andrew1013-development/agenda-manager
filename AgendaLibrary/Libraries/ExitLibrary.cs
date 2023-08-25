@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgendaLibrary.Definitions;
+using Windows.Foundation.Metadata;
 
 namespace AgendaLibrary.Libraries
 {
@@ -42,6 +43,10 @@ namespace AgendaLibrary.Libraries
                 Thread.Sleep(5000);
             }
             Environment.Exit(actual_exit);
+        }
+        public static string GetExitDescription(exitCode exit)
+        {
+            return "";
         }
     }
 }

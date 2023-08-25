@@ -17,7 +17,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Resources\AgendaLibrary.Designer.cs">
+    <Compile Update="Resources\Errors\AgendaManagerError.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AgendaManagerError.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Localization\AgendaLibrary.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>AgendaLibrary.resx</DependentUpon>
@@ -25,7 +30,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Resources\AgendaLibrary.resx">
+    <EmbeddedResource Update="Resources\Errors\AgendaManagerError.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AgendaManagerError.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Localization\AgendaLibrary.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>AgendaLibrary.Designer.cs</LastGenOutput>
     </EmbeddedResource>

@@ -16,6 +16,8 @@ using AgendaLibrary.Utilities;
 using AgendaLibrary.Types;
 //Octokit
 using Octokit;
+using AgendaManager;
+using AgendaManager.Properties;
 
 
 // global variables to use
@@ -32,7 +34,9 @@ var telemetry_filter = Builders<Telemetry>.Filter.Empty;
 exitCode ec = exitCode.SuccessfulExecution;
 var stopwatch = new Stopwatch();
 Logger logger = new Logger("manager.log");
-LanguageLibrary ll_c = new LanguageLibrary(LanguagePreference.Vietnamese);
+// read from settings
+LanguagePreference lang_setting = (LanguagePreference)Settings.Default.language;
+LanguageLibrary ll_c = new LanguageLibrary(lang_setting);
 
 #region startup code
 // setting up
@@ -132,7 +136,7 @@ while (loop != "1")
 
     switch (role)
     {
-        case "0":
+        case "0": // localized
             logger.LogInformation("accessed the secret menu");
             Console.WriteLine($"{LanguageLibrary.GetString("secret_shell_access")}");
             Console.WriteLine($"{LanguageLibrary.GetString("secret_shell_note")}");
@@ -145,7 +149,7 @@ while (loop != "1")
             }
             ec = exitCode.SecretMenuAccessed;
             break;
-        case "1":
+        case "1": // localized
             logger.LogInformation("accessed the upload agenda menu");
             Console.Write($"{LanguageLibrary.GetString("specify_password")}: ");
             string? output = Console.ReadLine();
@@ -162,7 +166,7 @@ while (loop != "1")
                 ec = exitCode.WrongPassword;
             }
             break;
-        case "2":
+        case "2": // localized
             logger.LogInformation("accessed the receive agenda menu");
             Console.WriteLine($"{LanguageLibrary.GetString("fetch_database")}");
             // find from filter (greater than the current date on system)
@@ -183,18 +187,18 @@ while (loop != "1")
                 Console.WriteLine();
             }
             break;
-        case "3":
+        case "3": // localized
             logger.LogInformation("accessed the pruning agenda menu");
             // find from filter (less than the current date on system)
             agenda_filter = Builders<Agenda>.Filter.Lte("deadline", DateTime.Now.ToShortDateString());
             agenda_search = agenda_collection.Find(agenda_filter).ToList();
-            Console.WriteLine($"Agendas to be deleted: {agenda_search.Count}");
-            Console.WriteLine($"Pruning {agenda_search.Count} old agendas.....");
+            Console.WriteLine($"{LanguageLibrary.GetString("agenda_prune")}: {agenda_search.Count} {LanguageLibrary.GetString("agenda")}");
+            Console.WriteLine($"{LanguageLibrary.GetString("pruning")} {agenda_search.Count} {LanguageLibrary.GetString("agenda")}.....");
             // delete individual agendas
             agenda_collection.DeleteMany(agenda_filter);
-            Console.WriteLine($"Pruned {agenda_search.Count} old agendas");
+            Console.WriteLine($"{LanguageLibrary.GetString("pruned")} {agenda_search.Count} {LanguageLibrary.GetString("agenda")}.");
             break;
-        case "4":
+        case "4": // localized
             logger.LogInformation("accessed the credits menu");
             Credits.ShowCredits();
             break;
@@ -212,27 +216,25 @@ while (loop != "1")
                 update_uri = update_packet.Item2;
                 // start downloading updater
                 download_updater_thread.Start();
-                Console.WriteLine(download_updater_thread.IsAlive);
             } 
             else
             {
                 ec = update_packet.Item3;
             }
             break;
-        case "7":
+        case "7": // localized
             logger.LogInformation("accessed the settings menu");
-            Console.WriteLine("This function is still work-in-progress.");
+            Console.WriteLine($"{LanguageLibrary.GetString("work_in_progress")}");
             break;
-        case "8":
+        case "8": // localized
             logger.LogInformation("accessed the help menu");
-            Console.WriteLine("This function is still work-in-progress.");
+            Console.WriteLine($"{LanguageLibrary.GetString("work_in_progress")}");
             break;
-        case "9":
-            logger.LogInformation("manual exiting");
-            ec = exitCode.SuccessfulExecution;
+        case "9": // localized
+            logger.LogInformation("manual exit");
             break;
         default:
-            Console.WriteLine("Invalid role specified.");
+            Console.WriteLine($"{LanguageLibrary.GetString("invalid_role_error")}");
             logger.LogInformation("invalid input specified");
             break;
     }

@@ -10,12 +10,12 @@ namespace AgendaLibrary.Libraries
         public LanguageLibrary(LanguagePreference language)
         {
             Console.OutputEncoding = Encoding.UTF8;
-            Resources.AgendaLibrary.Culture = CultureInfo.GetCultureInfo(LPToCulture(language));
-            Console.WriteLine($"Language: {Resources.AgendaLibrary.Culture.NativeName}");
+            Resources.Localization.AgendaLibrary.Culture = CultureInfo.GetCultureInfo(LPToCulture(language));
+            Console.WriteLine($"Language: {Resources.Localization.AgendaLibrary.Culture.NativeName}");
         }
         public static string GetString(string key)
         {
-            string? result_string = Resources.AgendaLibrary.ResourceManager.GetString(key, Resources.AgendaLibrary.Culture);
+            string? result_string = Resources.Localization.AgendaLibrary.ResourceManager.GetString(key, Resources.Localization.AgendaLibrary.Culture);
             if (String.IsNullOrEmpty(result_string))
             {
                 return "";

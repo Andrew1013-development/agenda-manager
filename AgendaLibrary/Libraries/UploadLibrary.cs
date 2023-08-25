@@ -19,7 +19,7 @@ namespace AgendaLibrary.Libraries
                 subject_input = Console.ReadLine();
                 if (String.IsNullOrEmpty(subject_input))
                 {
-                    Console.WriteLine("Subject cannot be empty");
+                    Console.WriteLine($"{LanguageLibrary.GetString("empty_subject_error")}");
                 }
             }
 
@@ -38,18 +38,18 @@ namespace AgendaLibrary.Libraries
                     } 
                     else
                     {
-                        Console.WriteLine("Date entered cannot be earlier than or equal to today.");
+                        Console.WriteLine($"{LanguageLibrary.GetString("early_date_error")}");
                     }
                 }
                 else
                 {
                     if (String.IsNullOrEmpty(deadline_input))
                     {
-                        Console.WriteLine("Date cannot be empty.");
+                        Console.WriteLine($"{LanguageLibrary.GetString("empty_date_error")}");
                     }
                     else
                     {
-                        Console.WriteLine("Date entered does not translate to a valid day.");
+                        Console.WriteLine($"{LanguageLibrary.GetString("invalid_date_error")}");
                     }
                 }
             }
@@ -61,7 +61,7 @@ namespace AgendaLibrary.Libraries
                 content_input = Console.ReadLine();
                 if (String.IsNullOrEmpty(content_input))
                 {
-                    Console.WriteLine("Content cannot be empty.");
+                    Console.WriteLine($"{LanguageLibrary.GetString("empty_content_error")}");
                 }
             }
 
@@ -69,13 +69,13 @@ namespace AgendaLibrary.Libraries
             string? notes_input = Console.ReadLine();
             Console.WriteLine(subject_input);
             // turn into "data packet"
-            Console.WriteLine("Uploading agenda to database.....");
+            Console.WriteLine($"{LanguageLibrary.GetString("upload_agenda")}");
             Agenda newAgenda = new Agenda(subject_input, deadline_input, content_input, notes_input);
             // insert data packet into database (async)
             Task uploadTask = agenda_collection.InsertOneAsync(newAgenda);
-            Console.WriteLine(newAgenda.ToJson(json_settings));
+            //Console.WriteLine(newAgenda.ToJson(json_settings));
             await uploadTask;
-            Console.WriteLine("Uploaded agenda to database.");
+            Console.WriteLine($"{LanguageLibrary.GetString("upload_agenda_finish")}");
         }
         public static void UploadBug(IMongoCollection<Bug> bug_collection) 
         {

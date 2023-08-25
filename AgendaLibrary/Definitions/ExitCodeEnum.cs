@@ -21,7 +21,7 @@ using System.Threading.Tasks;
 
 namespace AgendaLibrary.Definitions
 {
-    public enum exitCode
+    public enum exitCode : int
     {
         SuccessfulExecution = 0,
         DatabaseConnectionFailure = 1,
