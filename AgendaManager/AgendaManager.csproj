@@ -6,18 +6,20 @@
     <RootNamespace>AgendaManager</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<EnableWindowsTargeting>true</EnableWindowsTargeting>
+	<SelfContained>true</SelfContained>
+	<PublishSingleFile>true</PublishSingleFile>
 	<SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
 	<PackageLicenseFile>license.txt</PackageLicenseFile>
 	<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 	<NeutralLanguage>en-US</NeutralLanguage>
 	<Version></Version>
 	<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-	<SignAssembly>False</SignAssembly>
+	<SignAssembly>True</SignAssembly>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <Optimize>False</Optimize>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
   </PropertyGroup>
 
   <ItemGroup>
@@ -72,6 +74,13 @@
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 	<BaseOutputPath>Z:\agenda-manager\bin</BaseOutputPath>
 	<UserSecretsId>771c32f4-045a-48b0-ad61-b00371a75820</UserSecretsId>
+	<GenerateDocumentationFile>True</GenerateDocumentationFile>
+	<DelaySign>False</DelaySign>
+	<RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
   </PropertyGroup>
 
 </Project>

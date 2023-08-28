@@ -129,8 +129,41 @@
   <data name="agenda_prune" xml:space="preserve">
     <value>Agendas to be pruned</value>
   </data>
+  <data name="backup_old" xml:space="preserve">
+    <value>Creating backup of the old version.....</value>
+  </data>
+  <data name="backup_old_finish" xml:space="preserve">
+    <value>Old backup is created.</value>
+  </data>
+  <data name="bug_name_input" xml:space="preserve">
+    <value>Give a brief description of the bug</value>
+  </data>
+  <data name="bug_report" xml:space="preserve">
+    <value>Uploading bug report.....</value>
+  </data>
+  <data name="bug_report_finish" xml:space="preserve">
+    <value>Bug reported! Thanks for your feedback!</value>
+  </data>
   <data name="bug_report_role" xml:space="preserve">
     <value>Report a bug</value>
+  </data>
+  <data name="bug_report_tip" xml:space="preserve">
+    <value>TIP: Press Enter twice to denote the end of input, type with lines freely</value>
+  </data>
+  <data name="bug_reproduction_input" xml:space="preserve">
+    <value>Describe how to reproduce the bug</value>
+  </data>
+  <data name="check_old_update" xml:space="preserve">
+    <value>Checking if old update exists.....</value>
+  </data>
+  <data name="check_old_updater" xml:space="preserve">
+    <value>Checking if old updater exists.....</value>
+  </data>
+  <data name="check_update" xml:space="preserve">
+    <value>Checking for available updates.....</value>
+  </data>
+  <data name="check_update_error" xml:space="preserve">
+    <value>Cannot check for updates.</value>
   </data>
   <data name="command_entered" xml:space="preserve">
     <value>Command you entered</value>
@@ -156,8 +189,44 @@
   <data name="debug_warning" xml:space="preserve">
     <value>THIS IS A DEBUG BUILD, PERFORMANCE WILL BE REDUCED, USE WITH CAUTION.</value>
   </data>
+  <data name="delete_old_update" xml:space="preserve">
+    <value>Old update found, deleting.....</value>
+  </data>
+  <data name="delete_old_updater" xml:space="preserve">
+    <value>Old updater is found, deleting.....</value>
+  </data>
+  <data name="delete_old_updater_finish" xml:space="preserve">
+    <value>Old updater deleted.</value>
+  </data>
+  <data name="delete_old_update_finish" xml:space="preserve">
+    <value>Old update deleted.</value>
+  </data>
+  <data name="download_update" xml:space="preserve">
+    <value>Downloading update.....</value>
+  </data>
+  <data name="download_updater" xml:space="preserve">
+    <value>Downloading updater.....</value>
+  </data>
+  <data name="download_updater_error" xml:space="preserve">
+    <value>Cannot download updater to perform update.</value>
+  </data>
+  <data name="download_updater_finish" xml:space="preserve">
+    <value>Finished downloading updater.</value>
+  </data>
+  <data name="download_update_error" xml:space="preserve">
+    <value>Cannot download update file.</value>
+  </data>
+  <data name="download_update_finish" xml:space="preserve">
+    <value>Update downloaded.</value>
+  </data>
   <data name="early_date_error" xml:space="preserve">
     <value>Date cannot be earlier than or equal to today.</value>
+  </data>
+  <data name="empty_bug_name_error" xml:space="preserve">
+    <value>Bug description cannot be empty.</value>
+  </data>
+  <data name="empty_bug_reproduction_error" xml:space="preserve">
+    <value>Bug reproduction cannot be empty.</value>
   </data>
   <data name="empty_content_error" xml:space="preserve">
     <value>Content cannot be empty.</value>
@@ -186,11 +255,26 @@
   <data name="help_role" xml:space="preserve">
     <value>Summon Help (not finished yet)</value>
   </data>
+  <data name="install_update" xml:space="preserve">
+    <value>Installing update.....</value>
+  </data>
+  <data name="install_update_error" xml:space="preserve">
+    <value>Cannot install update.</value>
+  </data>
+  <data name="install_update_finish" xml:space="preserve">
+    <value>Update installed.</value>
+  </data>
   <data name="invalid_date_error" xml:space="preserve">
     <value>Date entered does not translate to a valid day.</value>
   </data>
   <data name="invalid_role_error" xml:space="preserve">
     <value>Invalid role specified.</value>
+  </data>
+  <data name="latest_update_name" xml:space="preserve">
+    <value>The latest release version name</value>
+  </data>
+  <data name="latest_version" xml:space="preserve">
+    <value>Latest version available</value>
   </data>
   <data name="library" xml:space="preserve">
     <value>library</value>
@@ -198,8 +282,20 @@
   <data name="main_dev" xml:space="preserve">
     <value>Main developer</value>
   </data>
+  <data name="new_update" xml:space="preserve">
+    <value>Update detected, ready to install and update.</value>
+  </data>
   <data name="notes" xml:space="preserve">
     <value>Notes</value>
+  </data>
+  <data name="no_new_update" xml:space="preserve">
+    <value>Your program is updated.</value>
+  </data>
+  <data name="no_old_update" xml:space="preserve">
+    <value>No old update found, downloading new update.</value>
+  </data>
+  <data name="no_old_updater" xml:space="preserve">
+    <value>No old updater is found, downloading new one.</value>
   </data>
   <data name="pruned" xml:space="preserve">
     <value>Pruned</value>
@@ -213,8 +309,20 @@
   <data name="receiver_role" xml:space="preserve">
     <value>Receiver (receiving upcoming agendas from database)</value>
   </data>
+  <data name="release_description" xml:space="preserve">
+    <value>Description of release</value>
+  </data>
+  <data name="release_url" xml:space="preserve">
+    <value>URL of release</value>
+  </data>
   <data name="role_selection" xml:space="preserve">
     <value>Role selection</value>
+  </data>
+  <data name="rollback_update" xml:space="preserve">
+    <value>Rolling back to old version.....</value>
+  </data>
+  <data name="rollback_update_finish" xml:space="preserve">
+    <value>Rolled back to old version.</value>
   </data>
   <data name="secret_shell_access" xml:space="preserve">
     <value>You have accessed the secret menu!</value>
@@ -266,6 +374,9 @@
   </data>
   <data name="wait_to_start" xml:space="preserve">
     <value>Waiting 3 seconds until starting up.....</value>
+  </data>
+  <data name="wait_update" xml:space="preserve">
+    <value>Waiting 30 seconds for Agenda Manager to fully quit exiting (for safety).....</value>
   </data>
   <data name="welcome" xml:space="preserve">
     <value>Welcome to Agenda Manager</value>

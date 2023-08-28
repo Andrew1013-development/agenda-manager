@@ -48,6 +48,7 @@ if (check_update.Item1 == true && check_update.Item3 == exitCode.SuccessfulExecu
             stopwatch.Stop();
             Console.WriteLine($"Update installed in {stopwatch.ElapsedMilliseconds} ms");
             music_thread.Join();
+            Console.WriteLine($"You can close the updater now.");
         } 
         else
         {

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 /* exit code
 * 0 = normal exit
 * 1 = database connection cannot be established
@@ -15,8 +10,9 @@ using System.Threading.Tasks;
 * 7 = secret menu accessed
 * 8 = cannot fetch updates
 * 9 = cannot download updates
-* 10 = cannot install updates
-* 11 = unknown exit code
+* 10 = cannot download updater
+* 11 = cannot install updates
+* 12 = unknown exit code
 */
 
 namespace AgendaLibrary.Definitions

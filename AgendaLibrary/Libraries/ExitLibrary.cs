@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgendaLibrary.Definitions;
-using Windows.Foundation.Metadata;
 
 namespace AgendaLibrary.Libraries
 {
@@ -44,9 +43,39 @@ namespace AgendaLibrary.Libraries
             }
             Environment.Exit(actual_exit);
         }
-        public static string GetExitDescription(exitCode exit)
+        public static string CodeToDescription(exitCode exit)
         {
-            return "";
+            switch (exit)
+            {
+                case exitCode.SuccessfulExecution:
+                    return exitDescriptions.exitSuccessfulExecution;
+                case exitCode.DatabaseConnectionFailure:
+                    return exitDescriptions.exitDatabaseConnectionFailure;
+                case exitCode.CollectionRetrievalFailure:
+                    return exitDescriptions.exitCollectionRetrievalFailure;
+                case exitCode.InvalidInput:
+                    return exitDescriptions.exitInvalidInput;
+                case exitCode.InvalidRole:
+                    return exitDescriptions.exitInvalidRole;
+                case exitCode.WrongPassword:
+                    return exitDescriptions.exitWrongPassword;
+                case exitCode.DatabaseUploadFailure: 
+                    return exitDescriptions.exitDatabaseUploadFailure;
+                case exitCode.SecretMenuAccessed:
+                    return exitDescriptions.exitSecretMenuAccessed;
+                case exitCode.FetchUpdateFailure:
+                    return exitDescriptions.exitFetchUpdateFailure;
+                case exitCode.DownloadUpdateFailure:
+                    return exitDescriptions.exitDownloadUpdateFailure;
+                case exitCode.DownloadUpdaterFailure:
+                    return exitDescriptions.exitDownloadUpdaterFailure;
+                case exitCode.InstallUpdateFailure:
+                    return exitDescriptions.exitInstallUpdateFailure;
+                case exitCode.UnknownExitCode:
+                    return exitDescriptions.exitUnknownExitCode;
+                default:
+                    return exitDescriptions.exitUnknownExitCode;
+            }
         }
     }
 }

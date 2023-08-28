@@ -14,13 +14,10 @@ using AgendaLibrary.Definitions;
 using AgendaLibrary.Libraries;
 using AgendaLibrary.Utilities;
 using AgendaLibrary.Types;
-//Octokit
-using Octokit;
-using AgendaManager;
 using AgendaManager.Properties;
+using AgendaManager.Libraries;
 
-
-// global variables to use
+// global variables
 // versioning
 string? version = Assembly.GetExecutingAssembly()?.GetName().Version?.ToString();
 bool install_update = false;
@@ -36,6 +33,8 @@ var stopwatch = new Stopwatch();
 Logger logger = new Logger("manager.log");
 // read from settings
 LanguagePreference lang_setting = (LanguagePreference)Settings.Default.language;
+bool debug_mode = Settings.Default.debug;
+// localization
 LanguageLibrary ll_c = new LanguageLibrary(lang_setting);
 
 #region startup code
@@ -53,18 +52,16 @@ logger.LogInformation("log file created");
 // mongodb connection
 Console.WriteLine($"{LanguageLibrary.GetString("establish_connection")}");
 logger.LogInformation("establishing a connection to database");
-var settings = MongoClientSettings.FromConnectionString(connectionString);
-var client = new MongoClient(settings);
+MongoClientSettings settings = MongoClientSettings.FromConnectionString(connectionString);
+MongoClient client = new MongoClient(settings);
 
 logger.LogInformation("getting agenda collection");
-var agenda_collection = client.GetDatabase("homework-database").GetCollection<Agenda>("agenda");
+IMongoCollection<Agenda> agenda_collection = client.GetDatabase("homework-database").GetCollection<Agenda>("agenda");
 List<Agenda> agenda_search = agenda_collection.Find(agenda_filter).ToList();
-
 logger.LogInformation("getting telemetry collection");
-var telemetry_collection = client.GetDatabase("homework-database").GetCollection<Telemetry>("telemetry");
-
+IMongoCollection<Telemetry> telemetry_collection = client.GetDatabase("homework-database").GetCollection<Telemetry>("telemetry");
 logger.LogInformation("getting bug collection");
-var bug_collection = client.GetDatabase("homework-database").GetCollection<Bug>("bug");
+IMongoCollection<Bug> bug_collection = client.GetDatabase("homework-database").GetCollection<Bug>("bug");
 
 Console.WriteLine($"{LanguageLibrary.GetString("establish_connection_finish")}");
 logger.LogInformation("database connection established");
@@ -82,8 +79,9 @@ logger.LogInformation("setting up updater thread");
 Thread download_updater_thread = new Thread( async() =>
 {
     // run in task so it would wait until task is finished
-    Task download_task = new Task( () => UpdateLibrary.DownloadUpdater());
+    Task<exitCode> download_task = UpdateLibrary.DownloadUpdater(debug_mode);
     await download_task;
+    ec = download_task.Result;
 });
 logger.LogInformation("updater thread set up.");
 Console.WriteLine($"{LanguageLibrary.GetString("updater_thread_finish")}");
@@ -103,15 +101,15 @@ Console.WriteLine($"***{LanguageLibrary.GetString("debug_warning")}***");
 Console.WriteLine();
 Console.WriteLine($"{LanguageLibrary.GetString("welcome")} v{version} - {LanguageLibrary.GetString("library")} v{ExposeVersioning.LibraryVersion()} ({LanguageLibrary.GetString("started_up")} {stopwatch.ElapsedMilliseconds} ms)");
 Console.WriteLine($"{LanguageLibrary.GetString("current_date_time")}: {DateTime.Now}");
-Console.WriteLine($"{LanguageLibrary.GetString("agenda_database")}: {agenda_search.Count} {LanguageLibrary.GetString("agenda")}");
-Console.WriteLine();
 
 // specify role (uploader / receiver)
 string? role = "";
 string? loop = "";
 while (loop != "1")
 {
-    Console.WriteLine($"{LanguageLibrary.GetString("role_selection")}:");
+    Console.WriteLine($"{LanguageLibrary.GetString("agenda_database")}: {agenda_search.Count} {LanguageLibrary.GetString("agenda")}");
+    Console.WriteLine();
+    Console.WriteLine($"{LanguageLibrary.GetString("role_selection")}: ");
     Console.WriteLine($"\t1: {LanguageLibrary.GetString("uploader_role")}\n" +
         $"\t2: {LanguageLibrary.GetString("receiver_role")}\n" +
         $"\t3: {LanguageLibrary.GetString("pruner_role")}\n" +
@@ -122,12 +120,12 @@ while (loop != "1")
         $"\t8: {LanguageLibrary.GetString("help_role")}\n" +
         $"\t9: {LanguageLibrary.GetString("exit_role")}"
         );
-    while (role == null || role == String.Empty)
+    while (String.IsNullOrEmpty(role))
     {
         Console.Write($"{LanguageLibrary.GetString("specify_role")}: ");
         role = Console.ReadLine();
         logger.LogInformation($"role selected : {role}");
-        if (role == null || role == String.Empty)
+        if (String.IsNullOrEmpty(role))
         {
             Console.WriteLine($"{LanguageLibrary.GetString("empty_role_warning")}");
             logger.LogInformation("role input length is invalid");
@@ -156,7 +154,7 @@ while (loop != "1")
             logger.LogInformation($"password specified: {output}");
             if (output == uploader_password)
             {
-                UploadLibrary.UploadAgenda(agenda_collection);
+                UploadLibrary.UploadAgenda(agenda_collection, debug_mode);
                 UploadLibrary.UploadTelemetry(telemetry_collection);
             }
             else
@@ -202,9 +200,9 @@ while (loop != "1")
             logger.LogInformation("accessed the credits menu");
             Credits.ShowCredits();
             break;
-        case "5":
+        case "5": // localized
             logger.LogInformation("accessed the bug report menu");
-            UploadLibrary.UploadBug(bug_collection);
+            UploadLibrary.UploadBug(bug_collection,debug_mode);
             break;
         case "6":
             logger.LogInformation("accessed the update menu");
@@ -224,7 +222,8 @@ while (loop != "1")
             break;
         case "7": // localized
             logger.LogInformation("accessed the settings menu");
-            Console.WriteLine($"{LanguageLibrary.GetString("work_in_progress")}");
+            SettingLibrary.ChangeSettings();
+            Console.Clear();
             break;
         case "8": // localized
             logger.LogInformation("accessed the help menu");
@@ -233,7 +232,7 @@ while (loop != "1")
         case "9": // localized
             logger.LogInformation("manual exit");
             break;
-        default:
+        default: // localized
             Console.WriteLine($"{LanguageLibrary.GetString("invalid_role_error")}");
             logger.LogInformation("invalid input specified");
             break;
@@ -275,20 +274,25 @@ while (loop != "1")
 if (install_update)
 {
     // finish download updater
+    download_updater_thread.Start();
     download_updater_thread.Join();
-    // drop version info .txt
-    StreamWriter am_version_writer = new StreamWriter(@"am_version.txt");
-    am_version_writer.WriteLine(version);
-    am_version_writer.Close();
-    // move into updater
-    if (File.Exists("AgendaManagerUpdater.exe"))
+    // continue update process if updater downloaded successfully
+    if (ec == exitCode.SuccessfulExecution)
     {
-        Process.Start("AgendaManagerUpdater.exe");
-    } 
-    else
-    {
-        Console.WriteLine("Updater not found, update process aborted.");
-        ec = exitCode.InstallUpdateFailure;
+        // drop version info .txt
+        StreamWriter am_version_writer = new StreamWriter(@"am_version.txt");
+        am_version_writer.WriteLine(version);
+        am_version_writer.Close();
+        // move into updater
+        if (File.Exists("AgendaManagerUpdater.exe"))
+        {
+            Process.Start("AgendaManagerUpdater.exe");
+        }
+        else
+        {
+            Console.WriteLine("Updater not found, update process aborted.");
+            ec = exitCode.InstallUpdateFailure;
+        }
     }
 }
 ExitLibrary.ProperExit(ec);

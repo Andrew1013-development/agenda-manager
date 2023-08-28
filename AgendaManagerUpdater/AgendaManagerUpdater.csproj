@@ -7,6 +7,9 @@
     <Nullable>enable</Nullable>
     <BaseOutputPath>Z:\agenda-manager\bin</BaseOutputPath>
     <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
+	<OutputType>Exe</OutputType>
+	<SelfContained>true</SelfContained>
+	<PublishSingleFile>true</PublishSingleFile>
   </PropertyGroup>
 
   <ItemGroup>

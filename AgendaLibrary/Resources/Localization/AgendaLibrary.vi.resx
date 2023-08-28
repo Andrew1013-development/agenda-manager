@@ -129,8 +129,41 @@
   <data name="agenda_prune" xml:space="preserve">
     <value>Số dặn dò để xóa</value>
   </data>
+  <data name="backup_old" xml:space="preserve">
+    <value>Tạo bản sao phiên bản cũ.....</value>
+  </data>
+  <data name="backup_old_finish" xml:space="preserve">
+    <value>Bản sao đã tạo.</value>
+  </data>
+  <data name="bug_name" xml:space="preserve">
+    <value>Cho một mô tả ngắn của lỗi</value>
+  </data>
+  <data name="bug_report" xml:space="preserve">
+    <value>Đang tải lên báo cáo lỗi.....</value>
+  </data>
+  <data name="bug_report_finish" xml:space="preserve">
+    <value>Lỗi đã được báo cáo! Cảm ơn phản hồi của bạn!</value>
+  </data>
   <data name="bug_report_role" xml:space="preserve">
     <value>Báo cáo lỗi trong chương trình</value>
+  </data>
+  <data name="bug_report_tip" xml:space="preserve">
+    <value>MẸO: Nhấn Enter 2 lần để đánh dấu kết thúc đầu vào, gõ cách hàng thoải mái</value>
+  </data>
+  <data name="bug_reproduction" xml:space="preserve">
+    <value>Mô tả cách làm lại lỗi</value>
+  </data>
+  <data name="check_old_update" xml:space="preserve">
+    <value>Kiểm tra nếu bản cũ tồn tại.....</value>
+  </data>
+  <data name="check_old_updater" xml:space="preserve">
+    <value>Kiểm tra nếu trình cập nhật cũ vẫn tồn tại.....</value>
+  </data>
+  <data name="check_update" xml:space="preserve">
+    <value>Kiểm tra cập nhật.....</value>
+  </data>
+  <data name="check_update_error" xml:space="preserve">
+    <value>Không thể kiểm tra cập nhật.</value>
   </data>
   <data name="command_entered" xml:space="preserve">
     <value>Lệnh bạn gõ vào</value>
@@ -154,10 +187,46 @@
     <value>Hạn chót</value>
   </data>
   <data name="debug_warning" xml:space="preserve">
-    <value>ĐÂY LÀ BẢN DEBUG, HIỆN NĂNG SẺ GIẢM, SỬ DỤNG VỚI SỰ CẨN THẬN.</value>
+    <value>ĐÂY LÀ BẢN DEBUG, HIỆN NĂNG SẼ GIẢM, SỬ DỤNG VỚI SỰ CẨN THẬN.</value>
+  </data>
+  <data name="delete_old_update" xml:space="preserve">
+    <value>Bản cũ đã tìm thấy, xóa.....</value>
+  </data>
+  <data name="delete_old_updater" xml:space="preserve">
+    <value>Trình cập nhật cũ đã tìm thấy, xóa.....</value>
+  </data>
+  <data name="delete_old_updater_finish" xml:space="preserve">
+    <value>Trình cập nhật cũ đã xóa.</value>
+  </data>
+  <data name="delete_old_update_finish" xml:space="preserve">
+    <value>Bãn cũ đã xóa.</value>
+  </data>
+  <data name="download_update" xml:space="preserve">
+    <value>Tải về bản cập nhật.....</value>
+  </data>
+  <data name="download_updater" xml:space="preserve">
+    <value>Tải về trình cập nhật.....</value>
+  </data>
+  <data name="download_updater_error" xml:space="preserve">
+    <value>Không thể tải xuống trình cập nhật để bắt đầu quá trình cập nhật.</value>
+  </data>
+  <data name="download_updater_finish" xml:space="preserve">
+    <value>Đã tải xong trình cập nhật.</value>
+  </data>
+  <data name="download_update_error" xml:space="preserve">
+    <value>Không thể tải về bản cập nhật</value>
+  </data>
+  <data name="download_update_finish" xml:space="preserve">
+    <value>Bản cập nhật đã tải về.</value>
   </data>
   <data name="early_date_error" xml:space="preserve">
     <value>Ngày tháng không thể sớm hơn hoặc bằng hôm nay</value>
+  </data>
+  <data name="empty_bug_name_error" xml:space="preserve">
+    <value>Mô tả lỗi không thể trống.</value>
+  </data>
+  <data name="empty_bug_reproduction_error" xml:space="preserve">
+    <value>Mô tả làm lại lỗi không thể trống.</value>
   </data>
   <data name="empty_content_error" xml:space="preserve">
     <value>Nôi dung không được trống.</value>
@@ -186,11 +255,26 @@
   <data name="help_role" xml:space="preserve">
     <value>Mở Trợ giúp (chưa hoàn thành)</value>
   </data>
+  <data name="install_update" xml:space="preserve">
+    <value>Cài đặt bản cập nhật.....</value>
+  </data>
+  <data name="install_update_error" xml:space="preserve">
+    <value>Không thể cài đặt bản cập nhật</value>
+  </data>
+  <data name="install_update_finish" xml:space="preserve">
+    <value>Bản cập nhật đã cài đặt</value>
+  </data>
   <data name="invalid_date_error" xml:space="preserve">
     <value>Ngày tháng gõ vào không thể chuyển đổi thành ngày tháng hợp lệ.</value>
   </data>
   <data name="invalid_role_error" xml:space="preserve">
     <value>Thao tác không hợp lệ đã chọn.</value>
+  </data>
+  <data name="latest_update_name" xml:space="preserve">
+    <value>Phiên bản mới nhất</value>
+  </data>
+  <data name="latest_version" xml:space="preserve">
+    <value>Bản cập nhật mới nhất</value>
   </data>
   <data name="library" xml:space="preserve">
     <value>thư viện bản</value>
@@ -198,8 +282,20 @@
   <data name="main_dev" xml:space="preserve">
     <value>Nhà phát triển chính</value>
   </data>
+  <data name="new_update" xml:space="preserve">
+    <value>Đã có bản cập nhật mới, sẵn sàng để cài đặt và cập nhật.</value>
+  </data>
   <data name="notes" xml:space="preserve">
     <value>Ghi chú</value>
+  </data>
+  <data name="no_new_update" xml:space="preserve">
+    <value>Chương trình của bạn đã được cập nhật.</value>
+  </data>
+  <data name="no_old_update" xml:space="preserve">
+    <value>Không tìm thấy bản cũ, tải xuống bản mới.</value>
+  </data>
+  <data name="no_old_updater" xml:space="preserve">
+    <value>Không tìm thấy trình cập nhật cũ, tải về bản mới.</value>
   </data>
   <data name="pruned" xml:space="preserve">
     <value>Đã xóa</value>
@@ -213,8 +309,20 @@
   <data name="receiver_role" xml:space="preserve">
     <value>Nhận (nhận các dặn dò từ cơ sở dữ liệu)</value>
   </data>
+  <data name="release_description" xml:space="preserve">
+    <value>Mô tả phiên bản mới nhất</value>
+  </data>
+  <data name="release_url" xml:space="preserve">
+    <value>URL phiên bản mới nhất</value>
+  </data>
   <data name="role_selection" xml:space="preserve">
     <value>Các lựa chọn thao tác</value>
+  </data>
+  <data name="rollback_update" xml:space="preserve">
+    <value>Quay về bản cũ.....</value>
+  </data>
+  <data name="rollback_update_finish" xml:space="preserve">
+    <value>Đã quay về bản cũ</value>
   </data>
   <data name="secret_shell_access" xml:space="preserve">
     <value>Bạn đã truy cập vào menu bí mật!</value>
@@ -266,6 +374,9 @@
   </data>
   <data name="wait_to_start" xml:space="preserve">
     <value>Chờ 3 giây để bật lên.....</value>
+  </data>
+  <data name="wait_update" xml:space="preserve">
+    <value>Chờ 30 giây để Agenda Manager thoát (cho sự an toàn).....</value>
   </data>
   <data name="welcome" xml:space="preserve">
     <value>Chào mừng đến với Agenda Manager bản</value>
