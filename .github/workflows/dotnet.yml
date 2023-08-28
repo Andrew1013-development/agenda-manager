@@ -23,6 +23,6 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore agenda-manager.sln
     - name: Build
-      run: dotnet build --no-restore agenda-manager.sln
+      run: dotnet build agenda-manager.sln
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal agenda-manager.sln
