@@ -10,6 +10,7 @@
 	<OutputType>Exe</OutputType>
 	<SelfContained>true</SelfContained>
 	<PublishSingleFile>true</PublishSingleFile>
+	  <EnableWindowsTargeting>True</EnableWindowsTargeting>
   </PropertyGroup>
 
   <ItemGroup>

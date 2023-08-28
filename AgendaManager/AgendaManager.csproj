@@ -15,6 +15,7 @@
 	<Version></Version>
 	<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
 	<SignAssembly>True</SignAssembly>
+	  <EnableWindowsTargeting>True</EnableWindowsTargeting>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
