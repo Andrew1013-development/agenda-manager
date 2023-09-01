@@ -79,7 +79,7 @@ logger.LogInformation("setting up updater thread");
 Thread download_updater_thread = new Thread( async() =>
 {
     // run in task so it would wait until task is finished
-    Task<exitCode> download_task = UpdateLibrary.DownloadUpdater(debug_mode);
+    Task<exitCode> download_task = UpdateLibrary.DownloadUpdater(true);
     await download_task;
     ec = download_task.Result;
 });
@@ -222,6 +222,7 @@ while (loop != "1")
             break;
         case "7": // localized
             logger.LogInformation("accessed the settings menu");
+            Console.WriteLine();
             SettingLibrary.ChangeSettings();
             Console.Clear();
             break;
@@ -240,18 +241,19 @@ while (loop != "1")
 
     if (role != "9" && ec == exitCode.SuccessfulExecution)
     {
-        Console.WriteLine("Exit or continue using?");
-        Console.WriteLine("\t0: Continue\n" +
-            "\t1: Exit"
+        Console.WriteLine($"{LanguageLibrary.GetString("exit_or_continue_program")}");
+        Console.WriteLine(
+            $"\t0: {LanguageLibrary.GetString("continue")}\n" +
+            $"\t1: {LanguageLibrary.GetString("exit")}"
             );
-        Console.WriteLine("Enter a number corresponding to the option you want to select");
-        Console.Write("option specified: ");
+        Console.WriteLine($"{LanguageLibrary.GetString("specify_number")}");
+        Console.Write($"{LanguageLibrary.GetString("number_specified")}: ");
         loop = Console.ReadLine();
         switch (loop)
         {
             case "0":
                 role = String.Empty;
-                Console.WriteLine("Continuing execution in 1 second.....");
+                Console.WriteLine($"{LanguageLibrary.GetString("continue_1_second")}");
                 Thread.Sleep(1000);
                 Console.Clear();
                 break;
@@ -259,7 +261,10 @@ while (loop != "1")
                 ec = exitCode.SuccessfulExecution;
                 break;
             default:
-                Console.WriteLine("Invalid option specified, defaulting to continue execution");
+                Console.WriteLine($"{LanguageLibrary.GetString("invalid_option_error_program")}");
+                Console.WriteLine($"{LanguageLibrary.GetString("continue_1_second")}");
+                Thread.Sleep(1000);
+                Console.Clear();
                 loop = "0";
                 role = String.Empty;
                 break;
@@ -274,7 +279,6 @@ while (loop != "1")
 if (install_update)
 {
     // finish download updater
-    download_updater_thread.Start();
     download_updater_thread.Join();
     // continue update process if updater downloaded successfully
     if (ec == exitCode.SuccessfulExecution)

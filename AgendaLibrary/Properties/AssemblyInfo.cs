@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 // attribute to true on that type.
 
 [assembly: ComVisible(false)]
-[assembly: AssemblyVersion("0.1.5.2")]
+[assembly: AssemblyVersion("0.1.6.0")]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM.
 

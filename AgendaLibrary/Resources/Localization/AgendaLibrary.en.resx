@@ -171,6 +171,12 @@
   <data name="content" xml:space="preserve">
     <value>Content</value>
   </data>
+  <data name="continue" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="continue_1_second" xml:space="preserve">
+    <value>Continuing in 1 second.....</value>
+  </data>
   <data name="create_log" xml:space="preserve">
     <value>Creating log file.....</value>
   </data>
@@ -183,8 +189,14 @@
   <data name="current_date_time" xml:space="preserve">
     <value>Current date and time</value>
   </data>
+  <data name="current_settings" xml:space="preserve">
+    <value>Current settings</value>
+  </data>
   <data name="deadline" xml:space="preserve">
     <value>Deadline</value>
+  </data>
+  <data name="debug_status" xml:space="preserve">
+    <value>Debug status</value>
   </data>
   <data name="debug_warning" xml:space="preserve">
     <value>THIS IS A DEBUG BUILD, PERFORMANCE WILL BE REDUCED, USE WITH CAUTION.</value>
@@ -246,6 +258,18 @@
   <data name="establish_connection_finish" xml:space="preserve">
     <value>Connection to database established.</value>
   </data>
+  <data name="exit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="exiting" xml:space="preserve">
+    <value>Exiting.....</value>
+  </data>
+  <data name="exit_or_continue_program" xml:space="preserve">
+    <value>Exit or continue using?</value>
+  </data>
+  <data name="exit_or_continue_settings" xml:space="preserve">
+    <value>Exit or continue in this section?</value>
+  </data>
   <data name="exit_role" xml:space="preserve">
     <value>Exiting (exit the program)</value>
   </data>
@@ -267,8 +291,17 @@
   <data name="invalid_date_error" xml:space="preserve">
     <value>Date entered does not translate to a valid day.</value>
   </data>
+  <data name="invalid_option_error_program" xml:space="preserve">
+    <value>Invalid option specified, defaulting to continue execution.</value>
+  </data>
+  <data name="invalid_option_error_settings" xml:space="preserve">
+    <value>Invalid option specified, defaulting to exiting this section.</value>
+  </data>
   <data name="invalid_role_error" xml:space="preserve">
     <value>Invalid role specified.</value>
+  </data>
+  <data name="language" xml:space="preserve">
+    <value>Language</value>
   </data>
   <data name="latest_update_name" xml:space="preserve">
     <value>The latest release version name</value>
@@ -281,6 +314,12 @@
   </data>
   <data name="main_dev" xml:space="preserve">
     <value>Main developer</value>
+  </data>
+  <data name="modify_debug" xml:space="preserve">
+    <value>Modify debug mode settings</value>
+  </data>
+  <data name="modify_language" xml:space="preserve">
+    <value>Modify language settings</value>
   </data>
   <data name="new_update" xml:space="preserve">
     <value>Update detected, ready to install and update.</value>
@@ -296,6 +335,9 @@
   </data>
   <data name="no_old_updater" xml:space="preserve">
     <value>No old updater is found, downloading new one.</value>
+  </data>
+  <data name="number_specified" xml:space="preserve">
+    <value>Option specified</value>
   </data>
   <data name="pruned" xml:space="preserve">
     <value>Pruned</value>
@@ -315,6 +357,9 @@
   <data name="release_url" xml:space="preserve">
     <value>URL of release</value>
   </data>
+  <data name="role_selected" xml:space="preserve">
+    <value>Role selected</value>
+  </data>
   <data name="role_selection" xml:space="preserve">
     <value>Role selection</value>
   </data>
@@ -331,7 +376,7 @@
     <value>This is just a shell in testing, type 'exit' to exit the shell.</value>
   </data>
   <data name="setting_role" xml:space="preserve">
-    <value>Change settings (not finished yet)</value>
+    <value>Change settings</value>
   </data>
   <data name="setup_json" xml:space="preserve">
     <value>Setting up JSON writer.....</value>
@@ -339,11 +384,17 @@
   <data name="setup_json_finish" xml:space="preserve">
     <value>JSON writer set up.</value>
   </data>
+  <data name="specify_number" xml:space="preserve">
+    <value>Enter a number corresponding to the option you want to select.</value>
+  </data>
   <data name="specify_password" xml:space="preserve">
     <value>Specify your password</value>
   </data>
   <data name="specify_role" xml:space="preserve">
     <value>Specify your role in the designated number above</value>
+  </data>
+  <data name="specify_role_settings" xml:space="preserve">
+    <value>Specify what settings to modify in the designated numbers above</value>
   </data>
   <data name="started_up" xml:space="preserve">
     <value>started up in</value>

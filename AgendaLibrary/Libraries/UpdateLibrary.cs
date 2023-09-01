@@ -42,17 +42,27 @@ namespace AgendaLibrary.Libraries
         {
             var github_client = new GitHubClient(new ProductHeaderValue("subscribe-to-lege"));
             Console.WriteLine($"{LanguageLibrary.GetString("check_old_updater")}");
+            
             if (File.Exists(@"AgendaManagerUpdater.exe")) {
-                Console.WriteLine($"{LanguageLibrary.GetString("delete_old_updater")}");
+                if (!decreased_output)
+                {
+                    Console.WriteLine($"{LanguageLibrary.GetString("delete_old_updater")}");
+                }
                 File.Delete(@"AgendaManagerUpdater.exe");
-                Console.WriteLine($"{LanguageLibrary.GetString("delete_old_updater_finish")}");
+                if (!decreased_output)
+                {
+                    Console.WriteLine($"{LanguageLibrary.GetString("delete_old_updater_finish")}");
+                }
             } else
             {
                 Console.WriteLine($"{LanguageLibrary.GetString("no_old_updater")}");
             }
             try
             {
-                Console.WriteLine($"{LanguageLibrary.GetString("download_updater")}");
+                if (!decreased_output)
+                {
+                    Console.WriteLine($"{LanguageLibrary.GetString("download_updater")}");
+                }
                 var latest = await github_client.Repository.Release.GetLatest("Andrew1013-development", "agenda-manager");
                 try
                 {

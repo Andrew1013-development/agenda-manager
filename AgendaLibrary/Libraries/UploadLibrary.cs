@@ -127,7 +127,7 @@ namespace AgendaLibrary.Libraries
             string? buffer = "malai day hohohohoh";
             while (!(String.IsNullOrEmpty(buffer) || String.IsNullOrWhiteSpace(buffer)))
             {
-                buffer = Console.ReadLine();
+                buffer = Console.ReadLine(); //force overwrite old string
                 lines.Add(buffer);
             }
             string result = "";

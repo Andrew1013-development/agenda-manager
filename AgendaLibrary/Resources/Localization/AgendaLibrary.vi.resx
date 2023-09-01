@@ -171,6 +171,12 @@
   <data name="content" xml:space="preserve">
     <value>Nội dung</value>
   </data>
+  <data name="continue" xml:space="preserve">
+    <value>Tiếp tục</value>
+  </data>
+  <data name="continue_1_second" xml:space="preserve">
+    <value>Tiếp tục trong 1 giây.....</value>
+  </data>
   <data name="create_log" xml:space="preserve">
     <value>Tạo tệp theo dõi.....</value>
   </data>
@@ -183,8 +189,14 @@
   <data name="current_date_time" xml:space="preserve">
     <value>Ngày và thời gian hiện tại</value>
   </data>
+  <data name="current_settings" xml:space="preserve">
+    <value>Cài đặt hiện tại</value>
+  </data>
   <data name="deadline" xml:space="preserve">
     <value>Hạn chót</value>
+  </data>
+  <data name="debug_status" xml:space="preserve">
+    <value>Tình trạng debug</value>
   </data>
   <data name="debug_warning" xml:space="preserve">
     <value>ĐÂY LÀ BẢN DEBUG, HIỆN NĂNG SẼ GIẢM, SỬ DỤNG VỚI SỰ CẨN THẬN.</value>
@@ -246,6 +258,18 @@
   <data name="establish_connection_finish" xml:space="preserve">
     <value>Đã kết nối đến cơ sở dữ liệu.</value>
   </data>
+  <data name="exit" xml:space="preserve">
+    <value>Thoát</value>
+  </data>
+  <data name="exiting" xml:space="preserve">
+    <value>Thoát.....</value>
+  </data>
+  <data name="exit_or_continue_program" xml:space="preserve">
+    <value>Thoát hay tiếp tục sử dụng?</value>
+  </data>
+  <data name="exit_or_continue_settings" xml:space="preserve">
+    <value>Thoát hay tiếp tục trong mục này?</value>
+  </data>
   <data name="exit_role" xml:space="preserve">
     <value>Thoát (thoát chương trình)</value>
   </data>
@@ -267,8 +291,17 @@
   <data name="invalid_date_error" xml:space="preserve">
     <value>Ngày tháng gõ vào không thể chuyển đổi thành ngày tháng hợp lệ.</value>
   </data>
+  <data name="invalid_option_error_program" xml:space="preserve">
+    <value>Lựa chọn không hợp lệ đã chọn, mặc định tiếp tục.</value>
+  </data>
+  <data name="invalid_option_error_settings" xml:space="preserve">
+    <value>Lựa chọn không hợp lệ đã chọn, mặc định thoát mục này.</value>
+  </data>
   <data name="invalid_role_error" xml:space="preserve">
     <value>Thao tác không hợp lệ đã chọn.</value>
+  </data>
+  <data name="language" xml:space="preserve">
+    <value>Ngôn ngữ</value>
   </data>
   <data name="latest_update_name" xml:space="preserve">
     <value>Phiên bản mới nhất</value>
@@ -281,6 +314,12 @@
   </data>
   <data name="main_dev" xml:space="preserve">
     <value>Nhà phát triển chính</value>
+  </data>
+  <data name="modify_debug" xml:space="preserve">
+    <value>Thay đổi trạng thái gỡ lỗi trong chương trình</value>
+  </data>
+  <data name="modify_language" xml:space="preserve">
+    <value>Thay đổi ngôn ngữ chương trình</value>
   </data>
   <data name="new_update" xml:space="preserve">
     <value>Đã có bản cập nhật mới, sẵn sàng để cài đặt và cập nhật.</value>
@@ -296,6 +335,9 @@
   </data>
   <data name="no_old_updater" xml:space="preserve">
     <value>Không tìm thấy trình cập nhật cũ, tải về bản mới.</value>
+  </data>
+  <data name="number_specified" xml:space="preserve">
+    <value>Lựa chọn được chọn</value>
   </data>
   <data name="pruned" xml:space="preserve">
     <value>Đã xóa</value>
@@ -315,6 +357,9 @@
   <data name="release_url" xml:space="preserve">
     <value>URL phiên bản mới nhất</value>
   </data>
+  <data name="role_selected" xml:space="preserve">
+    <value>Thao tác chọn</value>
+  </data>
   <data name="role_selection" xml:space="preserve">
     <value>Các lựa chọn thao tác</value>
   </data>
@@ -331,7 +376,7 @@
     <value>Đây chỉ là môi trường mã lệnh thử nghiệm, gõ lệnh "exit" để thoát</value>
   </data>
   <data name="setting_role" xml:space="preserve">
-    <value>Chỉnh sửa cài đặt (chưa hoàn thành)</value>
+    <value>Chỉnh sửa cài đặt</value>
   </data>
   <data name="setup_json" xml:space="preserve">
     <value>Đang tạo trình viết JSON.....</value>
@@ -339,11 +384,17 @@
   <data name="setup_json_finish" xml:space="preserve">
     <value>Trình viết JSON đã tạo.</value>
   </data>
+  <data name="specify_number" xml:space="preserve">
+    <value>Hãy chọn một số gắn với lựa chọn bạn muốn chọn</value>
+  </data>
   <data name="specify_password" xml:space="preserve">
     <value>Gõ mật mã</value>
   </data>
   <data name="specify_role" xml:space="preserve">
     <value>Chọn thao tác bạn muốn làm tương ứng với các số trên</value>
+  </data>
+  <data name="specify_role_settings" xml:space="preserve">
+    <value>Lựa chọn cài đặt để thay đổi theo các số trên</value>
   </data>
   <data name="started_up" xml:space="preserve">
     <value>bật lên trong</value>

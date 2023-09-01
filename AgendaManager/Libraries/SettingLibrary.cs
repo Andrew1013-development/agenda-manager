@@ -1,4 +1,5 @@
 ﻿using AgendaLibrary.Definitions;
+using AgendaLibrary.Libraries;
 
 namespace AgendaManager.Libraries
 {
@@ -13,22 +14,22 @@ namespace AgendaManager.Libraries
                 while (String.IsNullOrEmpty(role))
                 {
                     Tuple<int, bool> current_settings = ReadSettings();
-                    Console.WriteLine("Current settings (will be applied on next start)");
-                    Console.WriteLine($"Language: {(LanguagePreference)current_settings.Item1}");
-                    Console.WriteLine($"Debug status: {current_settings.Item2}");
+                    Console.WriteLine($"{LanguageLibrary.GetString("current_settings")}:");
+                    Console.WriteLine($"{LanguageLibrary.GetString("language")}: {(LanguagePreference)current_settings.Item1}");
+                    Console.WriteLine($"{LanguageLibrary.GetString("debug_status")}: {current_settings.Item2}");
                     Console.WriteLine();
-                    Console.WriteLine("Role selection: ");
+                    Console.WriteLine($"{LanguageLibrary.GetString("role_selection")}: ");
                     Console.WriteLine(
-                        $"\t1: Modify language settings\n" +
-                        $"\t2: Modify debug mode settings\n" +
-                        $"\t3: Exit"
+                        $"\t1: {LanguageLibrary.GetString("modify_language")}\n" +
+                        $"\t2: {LanguageLibrary.GetString("modify_debug")}\n" +
+                        $"\t3: {LanguageLibrary.GetString("exit")}"
                     );
-                    Console.WriteLine("Specify what settings to modify in the designated numbers above: ");
-                    Console.Write("role specified: ");
+                    Console.WriteLine($"{LanguageLibrary.GetString("specify_role_settings")}");
+                    Console.Write($"{LanguageLibrary.GetString("role_selected")}: ");
                     role = Console.ReadLine();
                     if (String.IsNullOrEmpty(role))
                     {
-                        Console.WriteLine("Role cannot be empty");
+                        Console.WriteLine($"{LanguageLibrary.GetString("empty_role_warning")}");
                     }
                 }
                 switch (role)
@@ -40,35 +41,40 @@ namespace AgendaManager.Libraries
                         ChangeDebugSetting();
                         break;
                     case "3":
+                        loop = "1";
                         break;
                     default:
-                        Console.WriteLine("Invalid role entered.");
+                        Console.WriteLine($"{LanguageLibrary.GetString("invalid_role_error")}");
                         break;
                 }
                 // looping
                 if (role != "3")
                 {
-                    Console.WriteLine("Exit or continue in this section?");
+                    Console.WriteLine($"{LanguageLibrary.GetString("exit_or_continue_settings")}");
                     Console.WriteLine(
-                        $"\t0: Continue\n" +
-                        $"\t1: Exit"
+                        $"\t0: {LanguageLibrary.GetString("continue")}\n" +
+                        $"\t1: {LanguageLibrary.GetString("exit")}"
                         );
-                    Console.WriteLine("Enter a number corresponding to the option you want to select");
-                    Console.Write("option specified: ");
+                    Console.WriteLine($"{LanguageLibrary.GetString("specify_number")}");
+                    Console.Write($"{LanguageLibrary.GetString("number_specified")}: ");
                     loop = Console.ReadLine();
                     switch (loop)
                     {
                         case "0":
-                            Console.WriteLine("Continuing in 1 second.....");
+                            Console.WriteLine($"{LanguageLibrary.GetString("continue_1_second")}");
                             Thread.Sleep(1000);
                             Console.Clear();
                             ChangeSettings(); // recursive UI function
                             break;
                         case "1":
-                            Console.WriteLine("Exiting.....");
+                            Console.WriteLine($"{LanguageLibrary.GetString("exiting")}");
                             break;
                         default:
-                            Console.WriteLine("Invalid option specified, defaulting to exiting this section.");
+                            Console.WriteLine($"{LanguageLibrary.GetString("invalid_option_error_settings")}");
+                            Console.WriteLine($"{LanguageLibrary.GetString("continue_1_second")}");
+                            Thread.Sleep(1000);
+                            Console.Clear();
+                            loop = "1";
                             break;
                     }
                 }
