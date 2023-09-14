@@ -1,13 +1,10 @@
 ﻿//MongoDB
 using MongoDB.Driver;
-using MongoDB.Bson;
 using MongoDB.Bson.IO;
 //System
-using System;
 using System.Reflection;
 using System.Diagnostics;
 using System.Text;
-using System.Threading.Tasks;
 //AgendaLibrary
 using AgendaLibrary;
 using AgendaLibrary.Definitions;
@@ -23,7 +20,7 @@ string? version = Assembly.GetExecutingAssembly()?.GetName().Version?.ToString()
 bool install_update = false;
 Uri update_uri = new Uri("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
 // mongodb credentials + settings
-string connectionString = "mongodb+srv://homework-database:homework123@cluster0.ygoqv7l.mongodb.net";
+string databaseString = "mongodb+srv://homework-database:homework123@cluster0.ygoqv7l.mongodb.net";
 string uploader_password = DateTime.Now.ToShortDateString().Replace("/","");
 var agenda_filter = Builders<Agenda>.Filter.Empty;
 var telemetry_filter = Builders<Telemetry>.Filter.Empty;
@@ -52,7 +49,16 @@ logger.LogInformation("log file created");
 // mongodb connection
 Console.WriteLine($"{LanguageLibrary.GetString("establish_connection")}");
 logger.LogInformation("establishing a connection to database");
-MongoClientSettings settings = MongoClientSettings.FromConnectionString(connectionString);
+MongoClientSettings settings = new MongoClientSettings(); // empty settings
+try
+{
+    settings = MongoClientSettings.FromConnectionString(databaseString);
+    settings.ConnectTimeout = TimeSpan.FromSeconds(5);
+    settings.IPv6 = false;
+} catch (Exception)
+{
+    ExitLibrary.ProperExit(exitCode.DatabaseConnectionFailure);
+}
 MongoClient client = new MongoClient(settings);
 
 logger.LogInformation("getting agenda collection");
@@ -136,6 +142,7 @@ while (loop != "1")
     {
         case "0": // localized
             logger.LogInformation("accessed the secret menu");
+            Console.Clear();
             Console.WriteLine($"{LanguageLibrary.GetString("secret_shell_access")}");
             Console.WriteLine($"{LanguageLibrary.GetString("secret_shell_note")}");
             string? command = "";
@@ -154,6 +161,7 @@ while (loop != "1")
             logger.LogInformation($"password specified: {output}");
             if (output == uploader_password)
             {
+                Console.Clear();
                 UploadLibrary.UploadAgenda(agenda_collection, debug_mode);
                 UploadLibrary.UploadTelemetry(telemetry_collection);
             }
@@ -166,6 +174,7 @@ while (loop != "1")
             break;
         case "2": // localized
             logger.LogInformation("accessed the receive agenda menu");
+            Console.Clear();
             Console.WriteLine($"{LanguageLibrary.GetString("fetch_database")}");
             // find from filter (greater than the current date on system)
             agenda_filter = Builders<Agenda>.Filter.Gte("deadline", DateTime.Now.ToShortDateString());
@@ -187,6 +196,7 @@ while (loop != "1")
             break;
         case "3": // localized
             logger.LogInformation("accessed the pruning agenda menu");
+            Console.Clear();
             // find from filter (less than the current date on system)
             agenda_filter = Builders<Agenda>.Filter.Lte("deadline", DateTime.Now.ToShortDateString());
             agenda_search = agenda_collection.Find(agenda_filter).ToList();
@@ -198,14 +208,17 @@ while (loop != "1")
             break;
         case "4": // localized
             logger.LogInformation("accessed the credits menu");
+            Console.Clear();
             Credits.ShowCredits();
             break;
         case "5": // localized
             logger.LogInformation("accessed the bug report menu");
+            Console.Clear();
             UploadLibrary.UploadBug(bug_collection,debug_mode);
             break;
-        case "6":
+        case "6": // localized
             logger.LogInformation("accessed the update menu");
+            Console.Clear();
             Tuple<bool, Uri, exitCode> update_packet = await UpdateLibrary.CheckForUpdate(version, true);
             if (update_packet.Item1)
             {
@@ -222,7 +235,7 @@ while (loop != "1")
             break;
         case "7": // localized
             logger.LogInformation("accessed the settings menu");
-            Console.WriteLine();
+            Console.Clear();
             SettingLibrary.ChangeSettings();
             Console.Clear();
             break;

@@ -1,4 +1,5 @@
 ﻿using Octokit;
+using System.Net.Http;
 using AgendaLibrary.Definitions;
 
 namespace AgendaLibrary.Libraries
@@ -13,7 +14,7 @@ namespace AgendaLibrary.Libraries
             try 
             {
                 var latest = await client.Repository.Release.GetLatest("Andrew1013-development", "agenda-manager");
-                Console.WriteLine($"{LanguageLibrary.GetString("latest_update")}: {latest.TagName}");
+                Console.WriteLine($"{LanguageLibrary.GetString("latest_version")}: {latest.TagName}");
                 if (compare_versions(current_version, latest.TagName))
                 {
                     Console.WriteLine($"{LanguageLibrary.GetString("new_update")}");
@@ -157,12 +158,13 @@ namespace AgendaLibrary.Libraries
             Console.WriteLine($"{LanguageLibrary.GetString("wait_update")}");
             Thread.Sleep(30000);
             Console.WriteLine($"{LanguageLibrary.GetString("backup_old")}");
-            File.Move(@"AgendaManager.exe", @"AgendaManager_old.exe", true);
+            File.Copy(@"AgendaManager.exe", @"AgendaManager_old.exe", true);
             Console.WriteLine($"{LanguageLibrary.GetString("backup_old_finish")}");
             try
             {
                 Console.WriteLine($"{LanguageLibrary.GetString("install_update")}");
-                File.Move(@"AgendaManager_update.exe", @"AgendaManager.exe", true);
+                File.Copy(@"AgendaManager_update.exe", @"AgendaManager.exe", true);
+                File.Delete(@"AgendaManager_update.exe"); // delete new update file after installing update
                 Console.WriteLine($"{LanguageLibrary.GetString("install_update_finish")}");
                 return exitCode.SuccessfulExecution;
             } catch (Exception)
@@ -170,7 +172,8 @@ namespace AgendaLibrary.Libraries
                 // rollback
                 Console.WriteLine($"{LanguageLibrary.GetString("install_update_error")}");
                 Console.WriteLine($"{LanguageLibrary.GetString("rollback_update")}");
-                File.Move(@"AgendaManager_old.exe",@"AgendaManager.exe");
+                File.Copy(@"AgendaManager_old.exe",@"AgendaManager.exe", true);
+                File.Delete(@"AgendaManager_old.exe"); // delete old version file
                 Console.WriteLine($"{LanguageLibrary.GetString("rollback_update_finish")}");
                 return exitCode.InstallUpdateFailure;
             }
@@ -179,8 +182,8 @@ namespace AgendaLibrary.Libraries
         internal static bool compare_versions(string src_version, string upd_version)
         {
             bool update_confirmed = false;
-            string[] src_version_list = src_version.Split(".");
-            string[] upd_version_list = upd_version.Split(".");
+            string[] src_version_list = src_version.Split('.');
+            string[] upd_version_list = upd_version.Split('.');
             for (int i = 0; i < src_version_list.Length; i++) 
             {
                 // true = update needed, false = no update needed

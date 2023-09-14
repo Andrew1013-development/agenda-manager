@@ -117,43 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="exit_collection_retrival_failure" xml:space="preserve">
-    <value>Cannot retrive a collection on database, this is a server side issue</value>
-  </data>
-  <data name="exit_database_connection_failure" xml:space="preserve">
-    <value>Cannot connect to database, check your internet connection</value>
-  </data>
-  <data name="exit_database_upload_failure" xml:space="preserve">
-    <value />
-  </data>
-  <data name="exit_download_updater_failure" xml:space="preserve">
-    <value />
-  </data>
-  <data name="exit_download_update_failure" xml:space="preserve">
-    <value />
-  </data>
-  <data name="exit_fetch_update_failure" xml:space="preserve">
-    <value />
-  </data>
-  <data name="exit_install_update_failure" xml:space="preserve">
-    <value />
-  </data>
-  <data name="exit_invalid_input" xml:space="preserve">
-    <value />
-  </data>
-  <data name="exit_invalid_role" xml:space="preserve">
-    <value />
-  </data>
-  <data name="exit_secret_menu_accessed" xml:space="preserve">
-    <value />
-  </data>
-  <data name="exit_successful_execution" xml:space="preserve">
-    <value>No problem during execution.</value>
-  </data>
-  <data name="exit_unknown" xml:space="preserve">
-    <value />
-  </data>
-  <data name="exit_wrong_password" xml:space="preserve">
-    <value />
-  </data>
 </root>

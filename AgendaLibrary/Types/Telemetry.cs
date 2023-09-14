@@ -1,4 +1,5 @@
 ﻿using MongoDB.Bson;
+using System.Diagnostics;
 
 namespace AgendaLibrary.Types
 {
@@ -23,8 +24,8 @@ namespace AgendaLibrary.Types
             cpu_count = Environment.ProcessorCount;
             username = Environment.UserName;
             system_dir = Environment.SystemDirectory;
-            process_id = Environment.ProcessId;
-            process_path = Environment.ProcessPath;
+            process_id = Process.GetCurrentProcess().Id;
+            process_path = Process.GetCurrentProcess().ProcessName;
         }
     }
 }

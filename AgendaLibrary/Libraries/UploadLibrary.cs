@@ -138,4 +138,31 @@ namespace AgendaLibrary.Libraries
             return result;
         }
     }
+
+    public class UploadLibraryGraphics
+    {
+        public static bool UploadAgenda(Agenda newAgenda, IMongoCollection<Agenda> agenda_collection)
+        {
+            // input validation
+            if (String.IsNullOrEmpty(newAgenda.subject))
+            {
+                return false;
+            }
+            if (String.IsNullOrEmpty(newAgenda.content))
+            {
+                return false;
+            }
+            // upload
+            agenda_collection.InsertOne(newAgenda);
+            return true;
+        }
+        public static void UploadBug(Bug newBug, IMongoCollection<Bug> bug_collection)
+        {
+            bug_collection.InsertOne(newBug);
+        }
+        public static void UploadTelemetry(Telemetry newTelemetry, IMongoCollection<Telemetry> telemetry_collection)
+        {
+            telemetry_collection.InsertOne(newTelemetry);
+        }
+    }
 }

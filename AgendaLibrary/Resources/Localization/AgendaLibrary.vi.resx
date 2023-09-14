@@ -411,8 +411,14 @@
   <data name="updater_thread_finish" xml:space="preserve">
     <value>Luồng tải trình cập nhật đã tạo.</value>
   </data>
+  <data name="update_description" xml:space="preserve">
+    <value>Mô tả bản cập nhật</value>
+  </data>
   <data name="update_role" xml:space="preserve">
     <value>Kiểm tra cập nhật</value>
+  </data>
+  <data name="update_url" xml:space="preserve">
+    <value>Link bản cập nhật</value>
   </data>
   <data name="uploader_role" xml:space="preserve">
     <value>Tải lên (tải lên các dặn dò lên cơ sở dữ liệu)</value>

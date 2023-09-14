@@ -411,8 +411,14 @@
   <data name="updater_thread_finish" xml:space="preserve">
     <value>Updater thread set up.</value>
   </data>
+  <data name="update_description" xml:space="preserve">
+    <value>Update description</value>
+  </data>
   <data name="update_role" xml:space="preserve">
     <value>Check for updates</value>
+  </data>
+  <data name="update_url" xml:space="preserve">
+    <value>Update URL</value>
   </data>
   <data name="uploader_role" xml:space="preserve">
     <value>Uploader (uploading agendas to database)</value>

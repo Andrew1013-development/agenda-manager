@@ -13,11 +13,16 @@ var stopwatch = new Stopwatch();
 Logger logger = new Logger("updater.log");
 exitCode ec = exitCode.SuccessfulExecution;
 SoundPlayer sp = new SoundPlayer(AgendaManagerUpdater.Resources.AgendaManagerUpdater.kings_court_pw);
+LanguageLibrary ll = new LanguageLibrary(LanguagePreference.English);
 Thread music_thread = new Thread(() =>
 {
     sp.PlaySync();
 });
+Process restart = new Process();
+restart.StartInfo.FileName = @"AgendaManager.exe";
 
+
+ProgressBarLibrary progressBar = new ProgressBarLibrary(0, 3, true);
 Console.WriteLine("Fetching version information from Agenda Manager.....");
 if (File.Exists(@"am_version.txt"))
 {
@@ -36,6 +41,7 @@ Thread.Sleep(5000);
 Console.WriteLine("Downloading and installing update.....");
 stopwatch.Start();
 music_thread.Start();
+//progressBar.ShowProgress();
 Tuple<bool, Uri, exitCode> check_update = await UpdateLibrary.CheckForUpdate(am_version, false);
 if (check_update.Item1 == true && check_update.Item3 == exitCode.SuccessfulExecution)
 {
@@ -47,8 +53,8 @@ if (check_update.Item1 == true && check_update.Item3 == exitCode.SuccessfulExecu
         {
             stopwatch.Stop();
             Console.WriteLine($"Update installed in {stopwatch.ElapsedMilliseconds} ms");
-            music_thread.Join();
             Console.WriteLine($"You can close the updater now.");
+            music_thread.Join();
         } 
         else
         {
@@ -63,4 +69,7 @@ if (check_update.Item1 == true && check_update.Item3 == exitCode.SuccessfulExecu
 {
     Console.WriteLine("There was a problem fetching updates, try again later");
 }
+Console.WriteLine("Restarting Agenda Manager.....");
+Console.Clear();
+restart.Start();
 ExitLibrary.ProperExit2(ec);
