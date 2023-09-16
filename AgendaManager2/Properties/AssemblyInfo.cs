@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("AgendaManager2")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Agenda Manager 2")]
+[assembly: AssemblyDescription("Agenda Manager 2")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Andrew1013-development")]
 [assembly: AssemblyProduct("AgendaManager2")]
-[assembly: AssemblyCopyright("Copyright ©  2023")]
+[assembly: AssemblyCopyright("Copyright © 2023 - 2023 Andrew1013-development")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -29,7 +29,6 @@ namespace AgendaManager2
                 if (item.Bounds.Contains(e.Location))
                 {
                     MessageBox.Show(item.Text);
-                    /*
                     switch (item.Text)
                     {
                         case "Upload":
@@ -41,8 +40,12 @@ namespace AgendaManager2
                         case "Prune":
                             MessageBox.Show("he clicked on prune");
                             break;
+                        case "Settings":
+                            MessageBox.Show("he clicked on prune");
+                            Settings settingWindow = new Settings();
+                            settingWindow.ShowDialog();
+                            break;
                     }
-                    */
                 }
             }
         }
@@ -51,6 +54,11 @@ namespace AgendaManager2
         {
             About aboutWindow = new About();
             aboutWindow.Show();
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -24,7 +24,7 @@ namespace AgendaLibrary.Libraries
                 return result_string;
             }
         }
-        internal static string LPToCulture(LanguagePreference language) {
+        public static string LPToCulture(LanguagePreference language) {
             switch (language)
             {
                 case LanguagePreference.English:
@@ -33,6 +33,18 @@ namespace AgendaLibrary.Libraries
                     return "vi";
                 default:
                     return "vi"; // default is Vietnamese
+            }
+        }
+        public static LanguagePreference CultureToLP(string language)
+        {
+            switch (language)
+            {
+                case "en":
+                    return LanguagePreference.English;
+                case "vi":
+                    return LanguagePreference.Vietnamese;
+                default:
+                    return LanguagePreference.Vietnamese;
             }
         }
     }
