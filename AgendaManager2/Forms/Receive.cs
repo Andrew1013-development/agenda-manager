@@ -8,18 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace AgendaManager2
+namespace AgendaManager2.Forms
 {
-    public partial class UploadControl : UserControl
+    public partial class Receive : Form
     {
-        public UploadControl()
+        public Receive()
         {
             InitializeComponent();
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }

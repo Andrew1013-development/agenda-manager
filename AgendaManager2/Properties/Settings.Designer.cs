@@ -26,12 +26,24 @@ namespace AgendaManager2.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public string language {
+        public int language {
             get {
-                return ((string)(this["language"]));
+                return ((int)(this["language"]));
             }
             set {
                 this["language"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool debug {
+            get {
+                return ((bool)(this["debug"]));
+            }
+            set {
+                this["debug"] = value;
             }
         }
     }

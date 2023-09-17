@@ -141,20 +141,9 @@ namespace AgendaLibrary.Libraries
 
     public class UploadLibraryGraphics
     {
-        public static bool UploadAgenda(Agenda newAgenda, IMongoCollection<Agenda> agenda_collection)
+        public static void UploadAgenda(Agenda newAgenda, IMongoCollection<Agenda> agenda_collection)
         {
-            // input validation
-            if (String.IsNullOrEmpty(newAgenda.subject))
-            {
-                return false;
-            }
-            if (String.IsNullOrEmpty(newAgenda.content))
-            {
-                return false;
-            }
-            // upload
             agenda_collection.InsertOne(newAgenda);
-            return true;
         }
         public static void UploadBug(Bug newBug, IMongoCollection<Bug> bug_collection)
         {
