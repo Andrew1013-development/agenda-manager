@@ -10,6 +10,7 @@
 	<GenerateAssemblyInfo>False</GenerateAssemblyInfo>
 	<StartupObject>AgendaManager2.Program</StartupObject>
 	<BaseOutputPath>Z:\agenda-manager\bin</BaseOutputPath>
+	<EnableWindowsTargeting>true</EnableWindowsTargeting>
   </PropertyGroup>
 
   <ItemGroup>
