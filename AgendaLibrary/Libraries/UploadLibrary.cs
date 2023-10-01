@@ -23,15 +23,16 @@ namespace AgendaLibrary.Libraries
 
             string? deadline_input = "";
             bool deadline_input_check = false;
+            DateTime dt = new DateTime(1970,1,1);
             while (!deadline_input_check)
             {
                 Console.Write($"{LanguageLibrary.GetString("deadline")}: ");
                 deadline_input = Console.ReadLine();
-                if (DateTime.TryParse(deadline_input, out DateTime dt))
+                if (DateTime.TryParse(deadline_input, out dt))
                 {
                     if (dt > DateTime.Now)
                     {
-                        deadline_input = dt.ToShortDateString();
+                        //deadline_input = dt.ToShortDateString();
                         deadline_input_check = true;
                     } 
                     else
@@ -82,7 +83,7 @@ namespace AgendaLibrary.Libraries
             while (String.IsNullOrEmpty(name_input))
             {
                 Console.WriteLine($"{LanguageLibrary.GetString("bug_name")}");
-                name_input = multi_line_input();
+                name_input = InputLibrary.MultilineInput();
                 if (String.IsNullOrEmpty(name_input))
                 {
                     Console.WriteLine($"{LanguageLibrary.GetString("empty_bug_name_error")}");
@@ -93,7 +94,7 @@ namespace AgendaLibrary.Libraries
             while (String.IsNullOrEmpty(reproduction_input))
             {
                 Console.WriteLine($"{LanguageLibrary.GetString("bug_reproduction")}");
-                reproduction_input = multi_line_input();
+                reproduction_input = InputLibrary.MultilineInput();
                 if (String.IsNullOrEmpty(reproduction_input))
                 {
                     Console.WriteLine($"{LanguageLibrary.GetString("empty_bug_reproduction_error")}");
@@ -120,22 +121,6 @@ namespace AgendaLibrary.Libraries
             //Console.WriteLine(newTelemetry.ToJson(json_settings));
             await uploadTask;
             //Console.WriteLine("Uploaded telemetry data to database.");
-        }
-        internal static string multi_line_input()
-        {
-            List<string?> lines = new List<string?> { };
-            string? buffer = "malai day hohohohoh";
-            while (!(String.IsNullOrEmpty(buffer) || String.IsNullOrWhiteSpace(buffer)))
-            {
-                buffer = Console.ReadLine(); //force overwrite old string
-                lines.Add(buffer);
-            }
-            string result = "";
-            foreach (string? line in lines)
-            {
-                result += " " + line;
-            }
-            return result;
         }
     }
 

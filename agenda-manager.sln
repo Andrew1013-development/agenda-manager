@@ -11,6 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgendaManagerUpdater", "Age
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgendaManager2", "AgendaManager2\AgendaManager2.csproj", "{7B29227B-8BCF-421F-8DE6-2BD0326B93FF}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgendaLibrary2", "AgendaLibrary2\AgendaLibrary2.csproj", "{C665BA79-AB77-46CC-BB9D-05A934DA0880}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaManagerTester", "AgendaManagerTester\AgendaManagerTester.csproj", "{E1794A7F-6480-4A43-96F8-87CB10B2EDAC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{7B29227B-8BCF-421F-8DE6-2BD0326B93FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B29227B-8BCF-421F-8DE6-2BD0326B93FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B29227B-8BCF-421F-8DE6-2BD0326B93FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C665BA79-AB77-46CC-BB9D-05A934DA0880}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C665BA79-AB77-46CC-BB9D-05A934DA0880}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C665BA79-AB77-46CC-BB9D-05A934DA0880}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C665BA79-AB77-46CC-BB9D-05A934DA0880}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1794A7F-6480-4A43-96F8-87CB10B2EDAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1794A7F-6480-4A43-96F8-87CB10B2EDAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1794A7F-6480-4A43-96F8-87CB10B2EDAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1794A7F-6480-4A43-96F8-87CB10B2EDAC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

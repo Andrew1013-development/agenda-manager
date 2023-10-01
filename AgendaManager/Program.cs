@@ -14,37 +14,32 @@ using AgendaLibrary.Types;
 using AgendaManager.Properties;
 using AgendaManager.Libraries;
 
+#region variables
 // global variables
 // versioning
-string? version = Assembly.GetExecutingAssembly()?.GetName().Version?.ToString();
+string? version = Assembly.GetExecutingAssembly().GetName().Version?.ToString();
 bool install_update = false;
 Uri update_uri = new Uri("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
 // mongodb credentials + settings
 string databaseString = "mongodb+srv://homework-database:homework123@cluster0.ygoqv7l.mongodb.net";
 string uploader_password = DateTime.Now.ToShortDateString().Replace("/","");
-var agenda_filter = Builders<Agenda>.Filter.Empty;
-var telemetry_filter = Builders<Telemetry>.Filter.Empty;
+FilterDefinition<Agenda> agenda_filter = Builders<Agenda>.Filter.Empty;
 // others
 exitCode ec = exitCode.SuccessfulExecution;
 var stopwatch = new Stopwatch();
 Logger logger = new Logger("manager.log");
 // read from settings
-LanguagePreference lang_setting = (LanguagePreference)Settings.Default.language;
 bool debug_mode = Settings.Default.debug;
 // localization
+LanguagePreference lang_setting = (LanguagePreference)Settings.Default.language; // duplicate read at the start
 LanguageLibrary ll_c = new LanguageLibrary(lang_setting);
+#endregion
 
 #region startup code
 // setting up
 stopwatch.Start();
 Console.OutputEncoding = Encoding.Unicode; // allow output of Unicode characters
 Console.InputEncoding = Encoding.Unicode; // allow input of Unicode characters
-
-// logging
-Console.WriteLine($"{LanguageLibrary.GetString("create_log")}");
-logger.LogInformation("creating log file.....");
-Console.WriteLine($"{LanguageLibrary.GetString("create_log_finish")}");
-logger.LogInformation("log file created");
 
 // mongodb connection
 Console.WriteLine($"{LanguageLibrary.GetString("establish_connection")}");
@@ -80,7 +75,7 @@ logger.LogInformation("JSON writer set up");
 Console.WriteLine($"{LanguageLibrary.GetString("setup_json_finish")}");
 
 // download updater thread
-Console.WriteLine($"{LanguageLibrary.GetString("updater_thread")}");
+//Console.WriteLine($"{LanguageLibrary.GetString("updater_thread")}");
 logger.LogInformation("setting up updater thread");
 Thread download_updater_thread = new Thread( async() =>
 {
@@ -90,16 +85,16 @@ Thread download_updater_thread = new Thread( async() =>
     ec = download_task.Result;
 });
 logger.LogInformation("updater thread set up.");
-Console.WriteLine($"{LanguageLibrary.GetString("updater_thread_finish")}");
+//Console.WriteLine($"{LanguageLibrary.GetString("updater_thread_finish")}");
 
 stopwatch.Stop();
 logger.LogInformation($"all parts started up in {stopwatch.ElapsedMilliseconds} ms");
-Console.WriteLine($"{LanguageLibrary.GetString("wait_to_start")}");
-Thread.Sleep(3000);
+//Console.WriteLine($"{LanguageLibrary.GetString("wait_to_start")}");
+Thread.Sleep(500);
+Console.Clear();
 #endregion
 
-Console.Clear();
-#region debug code only
+#region debug code
 #if DEBUG
 Console.WriteLine($"***{LanguageLibrary.GetString("debug_warning")}***");
 #endif
@@ -113,6 +108,9 @@ string? role = "";
 string? loop = "";
 while (loop != "1")
 {
+    // read settings
+    lang_setting = (LanguagePreference)Settings.Default.language;
+    ll_c.ChangeLanguage(lang_setting);
     Console.WriteLine($"{LanguageLibrary.GetString("agenda_database")}: {agenda_search.Count} {LanguageLibrary.GetString("agenda")}");
     Console.WriteLine();
     Console.WriteLine($"{LanguageLibrary.GetString("role_selection")}: ");
@@ -145,19 +143,13 @@ while (loop != "1")
             Console.Clear();
             Console.WriteLine($"{LanguageLibrary.GetString("secret_shell_access")}");
             Console.WriteLine($"{LanguageLibrary.GetString("secret_shell_note")}");
-            string? command = "";
-            while (command.ToLower() != "exit")
-            {
-                Console.Write("> ");
-                command = Console.ReadLine();
-                Console.WriteLine($"{LanguageLibrary.GetString("command_entered")}: {command}\n");
-            }
+            ShellLibrary.Shell();
             ec = exitCode.SecretMenuAccessed;
             break;
         case "1": // localized
             logger.LogInformation("accessed the upload agenda menu");
             Console.Write($"{LanguageLibrary.GetString("specify_password")}: ");
-            string? output = Console.ReadLine();
+            string? output = InputLibrary.PasswordInput();
             logger.LogInformation($"password specified: {output}");
             if (output == uploader_password)
             {
@@ -175,24 +167,7 @@ while (loop != "1")
         case "2": // localized
             logger.LogInformation("accessed the receive agenda menu");
             Console.Clear();
-            Console.WriteLine($"{LanguageLibrary.GetString("fetch_database")}");
-            // find from filter (greater than the current date on system)
-            agenda_filter = Builders<Agenda>.Filter.Gte("deadline", DateTime.Now.ToShortDateString());
-            agenda_search = agenda_collection.Find(agenda_filter).ToList();
-            // list individual agendas searched
-            Console.WriteLine($"{LanguageLibrary.GetString("agenda_available")}: {agenda_search.Count} {LanguageLibrary.GetString("agenda")}");
-            for (int i = 0; i < agenda_search.Count; i++)
-            {
-                Console.WriteLine($"{LanguageLibrary.GetString("agenda")} {i + 1}");
-                Console.WriteLine($"{LanguageLibrary.GetString("subject")}: {agenda_search.ElementAt(i).subject}");
-                Console.WriteLine($"{LanguageLibrary.GetString("content")}: {agenda_search.ElementAt(i).content}");
-                Console.WriteLine($"{LanguageLibrary.GetString("deadline")}: {agenda_search.ElementAt(i).deadline}");
-                if (!String.IsNullOrEmpty(agenda_search.ElementAt(i).notes))
-                {
-                    Console.WriteLine($"{LanguageLibrary.GetString("notes")}: {agenda_search.ElementAt(i).notes}");
-                }
-                Console.WriteLine();
-            }
+            ReceiveLibrary.ReceiveAgenda(agenda_collection);
             break;
         case "3": // localized
             logger.LogInformation("accessed the pruning agenda menu");

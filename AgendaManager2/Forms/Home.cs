@@ -18,7 +18,7 @@ namespace AgendaManager2
             InitializeComponent();
             initThread.Start();
         }
-        
+
         private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             foreach (ListViewItem item in listView1.Items)
@@ -30,15 +30,19 @@ namespace AgendaManager2
                     {
                         case "Upload":
                             Upload uploadWindow = new Upload();
-                            uploadWindow.Show();
+                            uploadWindow.ShowDialog(); // prevent switching focus back to main program
                             break;
                         case "Receive":
+                            Receive receiveWindow = new Receive();
+                            receiveWindow.ShowDialog(); // prevent switching focus back to main program
                             break;
                         case "Prune":
+                            Prune pruneWindow = new Prune();
+                            pruneWindow.ShowDialog(); // prevent switching focus back to main program
                             break;
                         case "Settings":
                             Settings settingsWindow = new Settings();
-                            settingsWindow.Show();
+                            settingsWindow.ShowDialog(); // prevent switching focus back to main program
                             break;
                     }
                 }
@@ -60,7 +64,7 @@ namespace AgendaManager2
         {
             initThread.Join();
         }
-        
+
         internal void InitializeDatabase()
         {
             toolStripStatusLabel1.Text = "Initializing database.....";
@@ -71,6 +75,12 @@ namespace AgendaManager2
             database = client.GetDatabase("homework-database");
             // set complete text
             toolStripStatusLabel1.Text = "Database initialized.";
+        }
+
+        private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Update updateWindow = new Update();
+            updateWindow.ShowDialog();
         }
     }
 }

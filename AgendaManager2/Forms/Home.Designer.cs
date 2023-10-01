@@ -30,11 +30,12 @@
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Home));
-            ListViewItem listViewItem5 = new ListViewItem("Upload", "upload.png");
-            ListViewItem listViewItem6 = new ListViewItem("Receive", "downloads.png");
-            ListViewItem listViewItem7 = new ListViewItem("Prune", "pruning-shears.png");
-            ListViewItem listViewItem8 = new ListViewItem("Settings", "cogwheel.png");
+            ListViewItem listViewItem1 = new ListViewItem("Upload", "upload.png");
+            ListViewItem listViewItem2 = new ListViewItem("Receive", "downloads.png");
+            ListViewItem listViewItem3 = new ListViewItem("Prune", "pruning-shears.png");
+            ListViewItem listViewItem4 = new ListViewItem("Settings", "cogwheel.png");
             statusStrip1 = new StatusStrip();
+            toolStripStatusLabel1 = new ToolStripStatusLabel();
             imageList1 = new ImageList(components);
             listView1 = new ListView();
             menuStrip1 = new MenuStrip();
@@ -43,7 +44,6 @@
             checkForUpdatesToolStripMenuItem = new ToolStripMenuItem();
             helpToolStripMenuItem = new ToolStripMenuItem();
             aboutToolStripMenuItem = new ToolStripMenuItem();
-            toolStripStatusLabel1 = new ToolStripStatusLabel();
             statusStrip1.SuspendLayout();
             menuStrip1.SuspendLayout();
             SuspendLayout();
@@ -58,6 +58,12 @@
             statusStrip1.TabIndex = 1;
             statusStrip1.Text = "statusStrip1";
             // 
+            // toolStripStatusLabel1
+            // 
+            toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            toolStripStatusLabel1.Size = new Size(151, 20);
+            toolStripStatusLabel1.Text = "toolStripStatusLabel1";
+            // 
             // imageList1
             // 
             imageList1.ColorDepth = ColorDepth.Depth8Bit;
@@ -71,7 +77,7 @@
             // listView1
             // 
             listView1.Dock = DockStyle.Fill;
-            listView1.Items.AddRange(new ListViewItem[] { listViewItem5, listViewItem6, listViewItem7, listViewItem8 });
+            listView1.Items.AddRange(new ListViewItem[] { listViewItem1, listViewItem2, listViewItem3, listViewItem4 });
             listView1.LargeImageList = imageList1;
             listView1.Location = new Point(0, 28);
             listView1.Name = "listView1";
@@ -100,19 +106,20 @@
             // reportABugToolStripMenuItem
             // 
             reportABugToolStripMenuItem.Name = "reportABugToolStripMenuItem";
-            reportABugToolStripMenuItem.Size = new Size(211, 26);
+            reportABugToolStripMenuItem.Size = new Size(224, 26);
             reportABugToolStripMenuItem.Text = "Report a bug";
             // 
             // checkForUpdatesToolStripMenuItem
             // 
             checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
-            checkForUpdatesToolStripMenuItem.Size = new Size(211, 26);
+            checkForUpdatesToolStripMenuItem.Size = new Size(224, 26);
             checkForUpdatesToolStripMenuItem.Text = "Check for updates";
+            checkForUpdatesToolStripMenuItem.Click += checkForUpdatesToolStripMenuItem_Click;
             // 
             // helpToolStripMenuItem
             // 
             helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            helpToolStripMenuItem.Size = new Size(211, 26);
+            helpToolStripMenuItem.Size = new Size(224, 26);
             helpToolStripMenuItem.Text = "Help";
             // 
             // aboutToolStripMenuItem
@@ -122,13 +129,7 @@
             aboutToolStripMenuItem.Text = "About";
             aboutToolStripMenuItem.Click += aboutToolStripMenuItem_Click;
             // 
-            // toolStripStatusLabel1
-            // 
-            toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            toolStripStatusLabel1.Size = new Size(151, 20);
-            toolStripStatusLabel1.Text = "toolStripStatusLabel1";
-            // 
-            // Form1
+            // Home
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -137,7 +138,7 @@
             Controls.Add(statusStrip1);
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
-            Name = "Form1";
+            Name = "Home";
             Text = "Agenda Manager 2";
             Load += Form1_Load;
             Shown += Form1_Shown;

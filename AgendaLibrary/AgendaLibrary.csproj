@@ -7,8 +7,8 @@
     <BaseOutputPath>Z:\agenda-manager\bin</BaseOutputPath>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
     <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
-	  <EnableWindowsTargeting>True</EnableWindowsTargeting>
-	  <LangVersion>10.0</LangVersion>
+	<EnableWindowsTargeting>True</EnableWindowsTargeting>
+	<LangVersion>10.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,14 +1,10 @@
 ﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections;
 
 namespace AgendaLibrary.Types
 {
-    public class Agenda {
+    public class Agenda : IEquatable<Agenda> ,IComparable<Agenda>
+    {
         public ObjectId Id { get; set; }
         public string subject { get; set; }
         public string deadline { get; set; }
@@ -22,6 +18,16 @@ namespace AgendaLibrary.Types
             content = agenda_content;
             notes = agenda_notes;
             created = DateTime.Now.ToString();
+        }
+
+        public int CompareTo(Agenda that)
+        {
+            return this.deadline.CompareTo(that.deadline);
+        }
+
+        public bool Equals(Agenda that)
+        {
+            return this.Equals(that);
         }
     }
 }

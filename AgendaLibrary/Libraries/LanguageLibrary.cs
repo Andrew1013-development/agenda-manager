@@ -2,16 +2,19 @@
 using System.Text;
 using System.Globalization;
 using AgendaLibrary.Definitions;
+using Octokit;
 
 namespace AgendaLibrary.Libraries
 {
     public class LanguageLibrary
     {
+        private LanguagePreference current_language;
         public LanguageLibrary(LanguagePreference language)
         {
             Console.OutputEncoding = Encoding.UTF8;
-            Resources.Localization.AgendaLibrary.Culture = CultureInfo.GetCultureInfo(LPToCulture(language));
-            Console.WriteLine($"Language: {Resources.Localization.AgendaLibrary.Culture.NativeName}");
+            current_language = language;
+            LoadLocalization();
+            //Console.WriteLine($"Language: {Resources.Localization.AgendaLibrary.Culture.NativeName}");
         }
         public static string GetString(string key)
         {
@@ -46,6 +49,15 @@ namespace AgendaLibrary.Libraries
                 default:
                     return LanguagePreference.Vietnamese;
             }
+        }
+        public void ChangeLanguage(LanguagePreference new_language)
+        {
+            current_language = new_language;
+            LoadLocalization();
+        }
+        internal void LoadLocalization()
+        {
+            Resources.Localization.AgendaLibrary.Culture = CultureInfo.GetCultureInfo(LPToCulture(current_language));
         }
     }
 }

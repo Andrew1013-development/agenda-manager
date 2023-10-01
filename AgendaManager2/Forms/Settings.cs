@@ -49,5 +49,11 @@ namespace AgendaManager2
         {
             Properties.Settings.Default.language = comboBox1.SelectedIndex;
         }
+
+        private void Settings_Load(object sender, EventArgs e)
+        {
+            comboBox1.SelectedIndex = Properties.Settings.Default.language;
+            checkBox1.Checked = Properties.Settings.Default.debug;
+        }
     }
 }

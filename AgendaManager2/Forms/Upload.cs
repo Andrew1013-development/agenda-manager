@@ -29,19 +29,19 @@ namespace AgendaManager2.Forms
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (!String.IsNullOrEmpty(textBox1.Text) && !String.IsNullOrEmpty(textBox2.Text))
+            if (!String.IsNullOrEmpty(textBox3.Text) && !String.IsNullOrEmpty(textBox1.Text))
             {
-                Agenda newAgenda = new Agenda(textBox1.Text, dateTimePicker1.Value.ToShortDateString(), textBox2.Text, textBox3.Text);
+                Agenda newAgenda = new Agenda(textBox3.Text, dateTimePicker1.Value.ToShortDateString(), textBox1.Text, textBox2.Text);
                 UploadLibraryGraphics.UploadAgenda(newAgenda, agenda_collection);
                 MessageBox.Show("Agenda uploaded successfully", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             } 
             else
             {
-                if (String.IsNullOrEmpty(textBox1.Text))
+                if (String.IsNullOrEmpty(textBox3.Text))
                 {
                     MessageBox.Show("Subject field cannot be empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 } 
-                else
+                else if (String.IsNullOrEmpty(textBox1.Text))
                 {
                     MessageBox.Show("Content field cannot be empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }

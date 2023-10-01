@@ -1,16 +1,15 @@
 ﻿using Octokit;
-using System.Net.Http;
 using AgendaLibrary.Definitions;
 
 namespace AgendaLibrary.Libraries
 {
     public class UpdateLibrary
     {
+        internal static GitHubClient client = new GitHubClient(new ProductHeaderValue("check-updates"));
         // localized
         public static async Task<Tuple<bool,Uri,exitCode>> CheckForUpdate(string current_version, bool decreased_output)
         {
             Console.WriteLine($"{LanguageLibrary.GetString("check_update")}");
-            var client = new GitHubClient(new ProductHeaderValue("subscribe-to-hamyly"));
             try 
             {
                 var latest = await client.Repository.Release.GetLatest("Andrew1013-development", "agenda-manager");
@@ -41,9 +40,7 @@ namespace AgendaLibrary.Libraries
         // localized
         public static async Task<exitCode> DownloadUpdater(bool decreased_output)
         {
-            var github_client = new GitHubClient(new ProductHeaderValue("subscribe-to-lege"));
-            Console.WriteLine($"{LanguageLibrary.GetString("check_old_updater")}");
-            
+            Console.WriteLine($"{LanguageLibrary.GetString("check_old_updater")}");          
             if (File.Exists(@"AgendaManagerUpdater.exe")) {
                 if (!decreased_output)
                 {
@@ -64,7 +61,7 @@ namespace AgendaLibrary.Libraries
                 {
                     Console.WriteLine($"{LanguageLibrary.GetString("download_updater")}");
                 }
-                var latest = await github_client.Repository.Release.GetLatest("Andrew1013-development", "agenda-manager");
+                var latest = await client.Repository.Release.GetLatest("Andrew1013-development", "agenda-manager");
                 try
                 {
                     Uri download_uri = new Uri(latest.Assets.ElementAt(1).BrowserDownloadUrl);
@@ -197,6 +194,46 @@ namespace AgendaLibrary.Libraries
             }
             //Console.WriteLine(update_confirmed);
             return update_confirmed;
+        }
+    }
+    public class UpdateLibraryGraphics
+    {
+        internal static GitHubClient github_client = new GitHubClient(new ProductHeaderValue("check-update-2"));
+
+        public static async Task<Tuple<short,Release>> ReturnLatestUpdate(string current_version)
+        {
+            Release s = await github_client.Repository.Release.GetLatest("Andrew1013-development", "agenda-manager");
+            return Tuple.Create(compare_versions2(current_version,s.TagName),s);
+        }
+
+        public static void DownloadUpdate(string download_uri)
+        {
+
+        }
+
+        internal static short compare_versions2(string src_version, string upd_version)
+        {
+            short update_status = 0; // 0 = up-to-date, 1 = out-of-date, 2 = future version
+            string[] src_version_list = src_version.Split('.');
+            string[] upd_version_list = upd_version.Split('.');
+            for (int i = 0; i < src_version_list.Length; i++)
+            {
+                // true = update needed, false = no update needed
+                //Console.WriteLine($"{int.Parse(src_version_list[i])} {int.Parse(upd_version_list[i])} {update_confirmed}");
+                if (int.Parse(upd_version_list[i]) != int.Parse(src_version_list[i]))
+                {
+                    // if version number is different -> check if update version or current version is "higher"
+                    if (int.Parse(upd_version_list[i]) > int.Parse(src_version_list[i])) {
+                        update_status = 1;
+                    } 
+                    else
+                    {
+                        update_status = 2;
+                    }
+                    break;
+                }
+            }
+            return update_status;
         }
     }
 }

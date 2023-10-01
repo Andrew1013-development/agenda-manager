@@ -84,7 +84,6 @@
             checkBox1.TabIndex = 2;
             checkBox1.Text = "Enable?";
             checkBox1.UseVisualStyleBackColor = true;
-            checkBox1.Checked = Properties.Settings.Default.debug;
             checkBox1.CheckedChanged += checkBox1_CheckedChanged;
             // 
             // comboBox1
@@ -95,7 +94,6 @@
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(172, 28);
             comboBox1.TabIndex = 3;
-            comboBox1.SelectedIndex = Properties.Settings.Default.language;
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // label2
@@ -115,7 +113,9 @@
             Controls.Add(tableLayoutPanel1);
             Name = "Settings";
             Text = "Settings";
+            TopMost = true;
             FormClosing += Settings_FormClosing;
+            Load += Settings_Load;
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
             ResumeLayout(false);
